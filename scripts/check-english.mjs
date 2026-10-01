@@ -2,12 +2,11 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
-const JAPANESE = /[　-ヿ㐀-鿿＀-￯]/u;
-const SELF = 'scripts/check-english.mjs';
+const JAPANESE = /[\u3000-\u30FF\u3400-\u9FFF\uFF00-\uFFEF]/u;
 
 const files = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
   .split('\0')
-  .filter((file) => file !== '' && file !== SELF);
+  .filter((file) => file !== '');
 
 const violations = [];
 for (const file of files) {
