@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 `eslint-plugin-stoic-angular` is an open source ESLint plugin for Angular projects. Its rules impose strict design constraints (function length, branching, inheritance, naming, Angular class design) through lint checks.
 
