@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     include: ['src/**/*.spec.ts', 'test/**/*.spec.ts'],
     environment: 'node',
-    // 型情報つきルールの RuleTester は並列実行時の TS 初期化で 5s を超えうる
+    // RuleTester for type-aware rules can exceed 5s on TS initialization when run in parallel
     testTimeout: 30_000,
   },
 });
