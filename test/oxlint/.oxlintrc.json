@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": [{ "name": "stoic-angular", "specifier": "../../dist/index.js" }],
+  "rules": {
+    "stoic-angular/max-function-lines": "error"
+  }
+}
