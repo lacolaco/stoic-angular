@@ -10,7 +10,7 @@ pnpm add -D eslint-plugin-stoic-angular
 
 The package has not been published to npm yet.
 
-It requires ESLint 10 or later.
+It requires ESLint 10 (`eslint@^10.0.0`).
 
 ## Usage
 
