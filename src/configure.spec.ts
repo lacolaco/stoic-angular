@@ -39,6 +39,24 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-component-private-method with only the severity', () => {
+    expect(configure({ 'no-component-private-method': true }).rules).toEqual({
+      'stoic-angular/no-component-private-method': 'error',
+    });
+  });
+
+  it('enables no-directive-private-method with only the severity', () => {
+    expect(configure({ 'no-directive-private-method': true }).rules).toEqual({
+      'stoic-angular/no-directive-private-method': 'error',
+    });
+  });
+
+  it('enables no-pipe-private-method with only the severity', () => {
+    expect(configure({ 'no-pipe-private-method': true }).rules).toEqual({
+      'stoic-angular/no-pipe-private-method': 'error',
+    });
+  });
+
   it('enables no-switch with only the severity', () => {
     expect(configure({ 'no-switch': true }).rules).toEqual({
       'stoic-angular/no-switch': 'error',
@@ -129,6 +147,27 @@ describe('configure settings types', () => {
     configure({ 'no-class-inheritance': false });
   });
 
+  it('accepts only true for no-component-private-method', () => {
+    // @ts-expect-error no-component-private-method has no options
+    configure({ 'no-component-private-method': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-component-private-method': false });
+  });
+
+  it('accepts only true for no-directive-private-method', () => {
+    // @ts-expect-error no-directive-private-method has no options
+    configure({ 'no-directive-private-method': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-directive-private-method': false });
+  });
+
+  it('accepts only true for no-pipe-private-method', () => {
+    // @ts-expect-error no-pipe-private-method has no options
+    configure({ 'no-pipe-private-method': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-pipe-private-method': false });
+  });
+
   it('accepts only true for no-switch', () => {
     // @ts-expect-error no-switch has no options
     configure({ 'no-switch': {} });
@@ -204,6 +243,9 @@ describe('settings derived from rule definitions', () => {
       | 'if-only-at-start'
       | 'max-function-lines'
       | 'no-class-inheritance'
+      | 'no-component-private-method'
+      | 'no-directive-private-method'
+      | 'no-pipe-private-method'
       | 'no-else'
       | 'no-switch'
       | 'prefer-inline-template'

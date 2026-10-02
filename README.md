@@ -62,15 +62,18 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 
 🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
 
-| Name                                                           | Description                                                                              | 🔧 |
-| :------------------------------------------------------------- | :--------------------------------------------------------------------------------------- | :- |
-| [call-or-pass](docs/rules/call-or-pass.md)                     | Disallows using the same variable for both member access and argument passing.           |    |
-| [if-only-at-start](docs/rules/if-only-at-start.md)             | Requires an if statement to be only at the start of a function, which does nothing else. |    |
-| [max-function-lines](docs/rules/max-function-lines.md)         | Limits the number of logic lines in a function body.                                     |    |
-| [no-class-inheritance](docs/rules/no-class-inheritance.md)     | Forbids inheriting from classes and requires sharing implementation through delegation.  |    |
-| [no-else](docs/rules/no-else.md)                               | Disallows combining if and else.                                                         |    |
-| [no-switch](docs/rules/no-switch.md)                           | Disallows default in switch and requires every case to end with return.                  |    |
-| [prefer-inline-template](docs/rules/prefer-inline-template.md) | Requires short templates to be inline templates instead of templateUrl.                  | 🔧 |
+| Name                                                                     | Description                                                                                           | 🔧 |
+| :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- | :- |
+| [call-or-pass](docs/rules/call-or-pass.md)                               | Disallows using the same variable for both member access and argument passing.                        |    |
+| [if-only-at-start](docs/rules/if-only-at-start.md)                       | Requires an if statement to be only at the start of a function, which does nothing else.              |    |
+| [max-function-lines](docs/rules/max-function-lines.md)                   | Limits the number of logic lines in a function body.                                                  |    |
+| [no-class-inheritance](docs/rules/no-class-inheritance.md)               | Forbids inheriting from classes and requires sharing implementation through delegation.               |    |
+| [no-component-private-method](docs/rules/no-component-private-method.md) | Forbids private methods in Angular components and requires moving the logic to collaborating objects. |    |
+| [no-directive-private-method](docs/rules/no-directive-private-method.md) | Forbids private methods in Angular directives and requires moving the logic to collaborating objects. |    |
+| [no-else](docs/rules/no-else.md)                                         | Disallows combining if and else.                                                                      |    |
+| [no-pipe-private-method](docs/rules/no-pipe-private-method.md)           | Forbids private methods in Angular pipes and requires moving the logic to collaborating objects.      |    |
+| [no-switch](docs/rules/no-switch.md)                                     | Disallows default in switch and requires every case to end with return.                               |    |
+| [prefer-inline-template](docs/rules/prefer-inline-template.md)           | Requires short templates to be inline templates instead of templateUrl.                               | 🔧 |
 
 <!-- end auto-generated rules list -->
 
