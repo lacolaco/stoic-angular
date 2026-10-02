@@ -73,6 +73,15 @@ describe('oxlint jsPlugins compatibility', () => {
     expect(reports).toHaveLength(1);
   });
 
+  it('reports no-declarable-private-method for a component, a directive and a pipe', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(no-declarable-private-method)' &&
+        d.filename.startsWith('fixtures/no-declarable-private-method/'),
+    );
+    expect(reports).toHaveLength(3);
+  });
+
   it('reports no-else', () => {
     const reports = diagnostics.filter(
       (d) => d.code === 'stoic-angular(no-else)' && d.filename.startsWith('fixtures/no-else/'),
