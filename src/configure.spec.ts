@@ -32,6 +32,15 @@ describe('configure', () => {
     });
   });
 
+  it('enables prefer-inline-template with and without options', () => {
+    expect(configure({ 'prefer-inline-template': true }).rules).toEqual({
+      'stoic-angular/prefer-inline-template': 'error',
+    });
+    expect(configure({ 'prefer-inline-template': { maxLines: 5 } }).rules).toEqual({
+      'stoic-angular/prefer-inline-template': ['error', { maxLines: 5 }],
+    });
+  });
+
   it('passes the options after the severity', () => {
     expect(configure({ 'max-function-lines': { maxLines: 8 } }).rules).toEqual({
       'stoic-angular/max-function-lines': ['error', { maxLines: 8 }],
@@ -79,6 +88,15 @@ describe('configure settings types', () => {
     configure({ 'no-else': false });
   });
 
+  it('checks the prefer-inline-template settings', () => {
+    configure({ 'prefer-inline-template': true });
+    configure({ 'prefer-inline-template': { maxLines: 5 } });
+    // @ts-expect-error maxLines must be a number
+    configure({ 'prefer-inline-template': { maxLines: '5' } });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'prefer-inline-template': false });
+  });
+
   it('returns a flat config object', () => {
     expectTypeOf(configure({})).toEqualTypeOf<Linter.Config>();
   });
@@ -99,7 +117,7 @@ describe('settings derived from rule definitions', () => {
 
   it('only accepts known rule names', () => {
     expectTypeOf<keyof Settings>().toEqualTypeOf<
-      'if-only-at-start' | 'max-function-lines' | 'no-else'
+      'if-only-at-start' | 'max-function-lines' | 'no-else' | 'prefer-inline-template'
     >();
   });
 });

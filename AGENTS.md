@@ -25,7 +25,7 @@ Everything in this repository and everything published from it is written in Eng
 
 ## Layout
 
-- `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/`)
+- `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/` and `angular/`)
 - `src/support/`: shared helpers; every rule is created through `createRule` in `create-rule.ts`
 - `src/index.ts`: the plugin object (`meta`, `rules` and `configure`)
 - `src/support/configure.ts`: the types and the builder behind `configure`
