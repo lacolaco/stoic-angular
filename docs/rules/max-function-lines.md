@@ -2,8 +2,6 @@
 
 📝 Limits the number of logic lines in a function body.
 
-💼 This rule is enabled in the ✅ `recommended` config.
-
 <!-- end auto-generated rule header -->
 
 Limits the number of logic lines in a function body to five by default.
