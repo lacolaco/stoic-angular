@@ -26,10 +26,10 @@ function run(flag: boolean) {
 }`,
     },
     {
-      name: 'checks of external data types can be excluded with a disable comment stating the reason',
+      name: 'a disable comment on the line before the if suppresses the report',
       code: `declare function a(): void; declare function b(): void;
 function dispatch(input: string) {
-  // eslint-disable-next-line @rule-tester/no-else -- check of external data type (user input)
+  // eslint-disable-next-line @rule-tester/no-else -- reason for the exception
   if (input === 'a') {
     a();
   } else {
