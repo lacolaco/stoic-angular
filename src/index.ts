@@ -3,6 +3,7 @@ import type { Linter } from 'eslint';
 import { coreRules, type CoreRuleName } from './core-rules.js';
 import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
 import { noClassInheritance } from './rules/classes/no-class-inheritance.js';
+import { callOrPass } from './rules/functions/call-or-pass.js';
 import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { noElse } from './rules/functions/no-else.js';
@@ -13,6 +14,7 @@ import { buildConfig, type ConfigureSettings } from './support/configure.js';
 const pkg = createRequire(import.meta.url)('../package.json') as { version: string };
 
 export const rules = {
+  'call-or-pass': callOrPass,
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
   'no-class-inheritance': noClassInheritance,

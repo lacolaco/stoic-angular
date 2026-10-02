@@ -38,6 +38,14 @@ describe('oxlint jsPlugins compatibility', () => {
     expect(internal).toEqual([]);
   });
 
+  it('reports call-or-pass', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(call-or-pass)' && d.filename.startsWith('fixtures/call-or-pass/'),
+    );
+    expect(reports).toHaveLength(1);
+  });
+
   it('reports max-function-lines', () => {
     const reports = diagnostics.filter(
       (d) =>
