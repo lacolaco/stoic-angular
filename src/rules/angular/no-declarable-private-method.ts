@@ -28,11 +28,9 @@ function isHidden(member: Member): boolean {
   return accessibility === 'private' || key.type === 'PrivateIdentifier';
 }
 
-/** Whether this is a method, or a function field (such as an arrow function) that behaves as one */
+/** Whether this is a method or an accessor; function-valued fields are allowed */
 function isBehavioral(member: Member): boolean {
-  const { value } = member;
-  const fn = value?.type === 'ArrowFunctionExpression' || value?.type === 'FunctionExpression';
-  return member.type === 'MethodDefinition' ? member.kind !== 'constructor' : fn;
+  return member.type === 'MethodDefinition' && member.kind !== 'constructor';
 }
 
 function isBuried(member: TSESTree.ClassElement): boolean {

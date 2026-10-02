@@ -12,6 +12,48 @@ const tester = new RuleTester();
 tester.run('no-declarable-private-method', noDeclarablePrivateMethod, {
   valid: [
     {
+      name: 'private arrow function fields are allowed',
+      code: `import { Component } from '@angular/core';
+@Component({ template: '' })
+export class Panel {
+  private readonly tally = (): number => 1;
+}`,
+    },
+    {
+      name: 'private function expression fields are allowed',
+      code: `import { Component } from '@angular/core';
+@Component({ template: '' })
+export class Panel {
+  private readonly tally = function (): number {
+    return 1;
+  };
+}`,
+    },
+    {
+      name: '#private arrow function fields are allowed',
+      code: `import { Component } from '@angular/core';
+@Component({ template: '' })
+export class Panel {
+  readonly #tally = (): number => 1;
+}`,
+    },
+    {
+      name: 'directive: private arrow function fields are allowed',
+      code: `import { Directive } from '@angular/core';
+@Directive({ name: 'x' })
+export class Highlight {
+  private readonly tally = (): number => 1;
+}`,
+    },
+    {
+      name: 'pipe: private arrow function fields are allowed',
+      code: `import { Pipe } from '@angular/core';
+@Pipe({ name: 'x' })
+export class DoublePipe {
+  private readonly tally = (): number => 1;
+}`,
+    },
+    {
       name: 'protected methods are allowed',
       code: `import { Component } from '@angular/core';
 @Component({ template: '' })
@@ -270,35 +312,6 @@ export class Panel {
       errors: [{ messageId: 'privateMethod' }],
     },
     {
-      name: 'private arrow function fields are reported',
-      code: `import { Component } from '@angular/core';
-@Component({ template: '' })
-export class Panel {
-  private readonly tally = (): number => 1;
-}`,
-      errors: [{ messageId: 'privateMethod' }],
-    },
-    {
-      name: 'private function expression fields are reported',
-      code: `import { Component } from '@angular/core';
-@Component({ template: '' })
-export class Panel {
-  private readonly tally = function (): number {
-    return 1;
-  };
-}`,
-      errors: [{ messageId: 'privateMethod' }],
-    },
-    {
-      name: '#private arrow function fields are reported',
-      code: `import { Component } from '@angular/core';
-@Component({ template: '' })
-export class Panel {
-  readonly #tally = (): number => 1;
-}`,
-      errors: [{ messageId: 'privateMethod' }],
-    },
-    {
       name: 'an aliased import is followed',
       code: `import { Component as C } from '@angular/core';
 @C({ template: '' })
@@ -334,7 +347,7 @@ export class Panel {
       errors: [{ messageId: 'privateMethod' }],
     },
     {
-      name: 'every private method is reported on its own member',
+      name: 'only the private method is reported, not the private function field',
       code: `import { Component } from '@angular/core';
 @Component({ template: '' })
 export class Panel {
@@ -342,10 +355,7 @@ export class Panel {
   protected b(): void {}
   private c = () => {};
 }`,
-      errors: [
-        { messageId: 'privateMethod', line: 4 },
-        { messageId: 'privateMethod', line: 6 },
-      ],
+      errors: [{ messageId: 'privateMethod', line: 4 }],
     },
     {
       name: 'directive: private methods are reported',
@@ -355,15 +365,6 @@ export class Highlight {
   private tally(): number {
     return 1;
   }
-}`,
-      errors: [{ messageId: 'privateMethod' }],
-    },
-    {
-      name: 'directive: private arrow function fields are reported',
-      code: `import { Directive } from '@angular/core';
-@Directive({ name: 'x' })
-export class Highlight {
-  private readonly tally = (): number => 1;
 }`,
       errors: [{ messageId: 'privateMethod' }],
     },
@@ -386,15 +387,6 @@ export class DoublePipe {
   private tally(): number {
     return 1;
   }
-}`,
-      errors: [{ messageId: 'privateMethod' }],
-    },
-    {
-      name: 'pipe: private arrow function fields are reported',
-      code: `import { Pipe } from '@angular/core';
-@Pipe({ name: 'x' })
-export class DoublePipe {
-  private readonly tally = (): number => 1;
 }`,
       errors: [{ messageId: 'privateMethod' }],
     },
