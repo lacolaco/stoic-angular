@@ -74,3 +74,5 @@ function dispatch(handler: Handler) {
 ## Related rules
 
 [`if-only-at-start`](if-only-at-start.md) treats an `else if` chain as part of its leading `if`, so it allows the chain. This rule reports the same chain, because every `if` in it except the last has an `alternate`. Enabling both rules therefore forbids every `else if` chain: each `if` must be alone in its function (`if-only-at-start`) and must have no `else` (`no-else`).
+
+The early `return` form above is also reported by `if-only-at-start`, because the `if` is followed by another statement. With both rules enabled, use the conditional operator or polymorphism, or extract the `if` into a function whose only statement is that `if`.
