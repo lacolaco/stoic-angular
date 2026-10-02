@@ -58,11 +58,14 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 
 <!-- begin auto-generated rules list -->
 
-| Name                                                   | Description                                                                              |
-| :----------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| [if-only-at-start](docs/rules/if-only-at-start.md)     | Requires an if statement to be only at the start of a function, which does nothing else. |
-| [max-function-lines](docs/rules/max-function-lines.md) | Limits the number of logic lines in a function body.                                     |
-| [no-else](docs/rules/no-else.md)                       | Disallows combining if and else.                                                         |
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+
+| Name                                                           | Description                                                                              | 🔧 |
+| :------------------------------------------------------------- | :--------------------------------------------------------------------------------------- | :- |
+| [if-only-at-start](docs/rules/if-only-at-start.md)             | Requires an if statement to be only at the start of a function, which does nothing else. |    |
+| [max-function-lines](docs/rules/max-function-lines.md)         | Limits the number of logic lines in a function body.                                     |    |
+| [no-else](docs/rules/no-else.md)                               | Disallows combining if and else.                                                         |    |
+| [prefer-inline-template](docs/rules/prefer-inline-template.md) | Requires short templates to be inline templates instead of templateUrl.                  | 🔧 |
 
 <!-- end auto-generated rules list -->
 

@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
+import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
 import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { noElse } from './rules/functions/no-else.js';
@@ -12,6 +13,7 @@ export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
   'no-else': noElse,
+  'prefer-inline-template': preferInlineTemplate,
 };
 
 const meta = { name: 'eslint-plugin-stoic-angular', version: pkg.version, namespace: 'stoic-angular' };

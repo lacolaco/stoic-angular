@@ -1,11 +1,14 @@
 import { execFileSync, spawnSync } from 'node:child_process';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../..');
 const oxlintBin = path.join(root, 'node_modules/.bin/oxlint');
+const distEntry = path.join(root, 'dist/index.js');
 
 interface Diagnostic {
   code: string;
@@ -58,5 +61,41 @@ describe('oxlint jsPlugins compatibility', () => {
       (d) => d.code === 'stoic-angular(no-else)' && d.filename.startsWith('fixtures/no-else/'),
     );
     expect(reports).toHaveLength(1);
+  });
+
+  it('reports prefer-inline-template (context.filename and node:fs)', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(prefer-inline-template)' &&
+        d.filename.startsWith('fixtures/prefer-inline-template/'),
+    );
+    expect(reports).toHaveLength(1);
+  });
+
+  describe('--fix', () => {
+    let work = '';
+
+    beforeAll(() => {
+      work = mkdtempSync(path.join(tmpdir(), 'stoic-oxlint-'));
+      cpSync(path.join(here, 'fixtures'), path.join(work, 'fixtures'), { recursive: true });
+      const config = readFileSync(path.join(here, '.oxlintrc.json'), 'utf-8');
+      writeFileSync(
+        path.join(work, '.oxlintrc.json'),
+        config.replace('../../dist/index.js', distEntry),
+      );
+    });
+
+    afterAll(() => {
+      rmSync(work, { recursive: true, force: true });
+    });
+
+    it('rewrites templateUrl to an inline template with prefer-inline-template', () => {
+      const target = 'fixtures/prefer-inline-template';
+      runOxlint(work, ['--fix', target]);
+      const fixed = readFileSync(path.join(work, target, 'sample.component.ts'), 'utf-8');
+      expect(fixed).toContain('template: `');
+      expect(fixed).toContain('<p>Hello</p>');
+      expect(fixed).not.toContain('templateUrl');
+    });
   });
 });
