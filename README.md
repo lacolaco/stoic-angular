@@ -58,9 +58,10 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 
 <!-- begin auto-generated rules list -->
 
-| Name                                                   | Description                                          |
-| :----------------------------------------------------- | :--------------------------------------------------- |
-| [max-function-lines](docs/rules/max-function-lines.md) | Limits the number of logic lines in a function body. |
+| Name                                                   | Description                                                                              |
+| :----------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| [if-only-at-start](docs/rules/if-only-at-start.md)     | Requires an if statement to be only at the start of a function, which does nothing else. |
+| [max-function-lines](docs/rules/max-function-lines.md) | Limits the number of logic lines in a function body.                                     |
 
 <!-- end auto-generated rules list -->
 
