@@ -16,7 +16,7 @@ It requires ESLint 10 (`eslint@^10.0.0`).
 
 ### ESLint
 
-Add the `recommended` config to your flat config. This example reads TypeScript with the `typescript-eslint` parser.
+The plugin has no preset configs. Register the plugin and enable each rule yourself, so that every constraint in your project is one you chose. This example reads TypeScript with the `typescript-eslint` parser.
 
 ```js
 // eslint.config.js
@@ -27,8 +27,11 @@ export default [
   {
     files: ['**/*.ts'],
     languageOptions: { parser: tsParser },
+    plugins: { 'stoic-angular': stoicAngular },
+    rules: {
+      'stoic-angular/max-function-lines': 'error',
+    },
   },
-  stoicAngular.configs.recommended,
 ];
 ```
 
@@ -51,12 +54,9 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 
 <!-- begin auto-generated rules list -->
 
-💼 Configurations enabled in.\
-✅ Set in the `recommended` configuration.
-
-| Name                                                   | Description                                          | 💼 |
-| :----------------------------------------------------- | :--------------------------------------------------- | :- |
-| [max-function-lines](docs/rules/max-function-lines.md) | Limits the number of logic lines in a function body. | ✅  |
+| Name                                                   | Description                                          |
+| :----------------------------------------------------- | :--------------------------------------------------- |
+| [max-function-lines](docs/rules/max-function-lines.md) | Limits the number of logic lines in a function body. |
 
 <!-- end auto-generated rules list -->
 

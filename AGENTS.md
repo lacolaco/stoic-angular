@@ -27,13 +27,17 @@ Everything in this repository and everything published from it is written in Eng
 
 - `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/`)
 - `src/support/`: shared helpers; every rule is created through `createRule` in `create-rule.ts`
-- `src/index.ts`: the plugin object and its `recommended` config
-- `test/smoke/`: applies the `recommended` config to a sample through the `ESLint` class
+- `src/index.ts`: the plugin object (`meta` and `rules`)
+- `test/smoke/`: enables a rule in a flat config and lints a sample through the `ESLint` class
 - `test/oxlint/`: runs the built plugin under oxlint (see `docs/oxlint-compatibility.md`)
 
 ## Rule metadata
 
-A rule that uses type information sets `meta.docs.requiresTypeChecking: true`. `recommended` is derived from that flag and contains only rules without it. Do not maintain a separate list. When the first type-aware rule is added, add a `recommended-type-checked` config that contains all rules.
+A rule that uses type information sets `meta.docs.requiresTypeChecking: true`, so the docs can tell users which rules need `parserOptions` for type-aware linting.
+
+## No preset configs
+
+The plugin does not export `configs` (no `recommended`, no `all`). Every rule imposes a strict constraint, and users should enable each one explicitly, knowing what it constrains. Do not add preset configs.
 
 ## Commits
 
