@@ -30,7 +30,9 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "check:english": "node scripts/check-english.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "docs": "pnpm build && eslint-doc-generator",
+    "docs:check": "pnpm build && eslint-doc-generator --check"
   },
   "packageManager": "pnpm@10.33.4",
   "dependencies": {
@@ -44,6 +46,7 @@
     "@typescript-eslint/parser": "^8.67.0",
     "@typescript-eslint/rule-tester": "^8.67.0",
     "eslint": "^10.6.0",
+    "eslint-doc-generator": "^3.7.1",
     "oxlint": "^1.86.0",
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
