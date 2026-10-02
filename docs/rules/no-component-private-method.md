@@ -95,7 +95,7 @@ export class Panel {
 
 ## Why
 
-The class of a component is where the framework meets your code. When it only only binds the template and delegates the work, the logic lives in objects and functions that can be tested and reused without the framework. A private method keeps logic behind a boundary that tests cannot reach directly, so it tends to stay inside the component.
+The class of a component is where the framework meets your code. When it only binds the template and delegates the work, the logic lives in objects and functions that can be tested and reused without the framework. A private method keeps logic behind a boundary that tests cannot reach directly, so it tends to stay inside the component.
 
 ## Instead of private methods
 
@@ -103,6 +103,8 @@ Move the logic to a service or a function, and call it from the component.
 
 ```ts
 // Before
+import { Component } from '@angular/core';
+
 @Component({ selector: 'app-cart', template: '' })
 export class Cart {
   items = signal<number[]>([]);
@@ -119,6 +121,8 @@ export class Cart {
 
 ```ts
 // After
+import { Component } from '@angular/core';
+
 export function sum(values: number[]): number {
   return values.reduce((a, b) => a + b, 0);
 }

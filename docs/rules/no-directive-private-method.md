@@ -92,6 +92,8 @@ Move the logic to a service or a function, and call it from the directive.
 
 ```ts
 // Before
+import { Directive } from '@angular/core';
+
 @Directive({ selector: '[appClamp]' })
 export class Clamp {
   max = 10;
@@ -108,6 +110,8 @@ export class Clamp {
 
 ```ts
 // After
+import { Directive } from '@angular/core';
+
 export function limit(value: number, max: number): number {
   return Math.min(value, max);
 }

@@ -99,6 +99,8 @@ Move the logic to a service or a function, and call it from the pipe.
 
 ```ts
 // Before
+import { Pipe } from '@angular/core';
+
 @Pipe({ name: 'double' })
 export class DoublePipe {
   transform(value: number): number {
@@ -113,6 +115,8 @@ export class DoublePipe {
 
 ```ts
 // After
+import { Pipe } from '@angular/core';
+
 export function twice(value: number): number {
   return value * 2;
 }
