@@ -28,6 +28,7 @@ Everything in this repository and everything published from it is written in Eng
 - `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/` and `angular/`)
 - `src/support/`: shared helpers; every rule is created through `createRule` in `create-rule.ts`
 - `src/index.ts`: the plugin object (`meta`, `rules` and `configure`)
+- `src/core-rules.ts`: the ESLint core rules that `configure` can enable (`coreRules`)
 - `src/support/configure.ts`: the types and the builder behind `configure`
 - `test/smoke/`: enables a rule in a flat config and lints a sample through the `ESLint` class
 - `test/oxlint/`: runs the built plugin under oxlint (see `docs/oxlint-compatibility.md`)
@@ -43,6 +44,12 @@ The plugin does not export `configs` (no `recommended`, no `all`). Every rule im
 ## `configure`
 
 `plugin.configure(settings)` returns a flat config that registers the plugin and enables only the listed rules, always as `error`. Its `settings` type is derived from `typeof rules` in `src/index.ts` and from each rule's `RuleModule` type arguments: the keys are the rule names, and a value is `true` or the rule's first option. Adding a rule to `rules` is therefore all `configure` needs; do not write per-rule types by hand. `src/configure.spec.ts` checks the types.
+
+### Core rules
+
+`configure` also enables ESLint core rules, chosen one by one. A core rule is keyed by its own name and written without a prefix (`'no-nested-ternary': 'error'`). Only add a core rule that fits this project's discipline; do not add one just because it is popular.
+
+To add one, append its name to `coreRules` in `src/core-rules.ts`. The setting type follows from `ESLintRules` (`eslint/rules`): the options are read from its `Linter.RuleEntry<Options>`, so do not write them by hand. A name shared with a plugin rule makes `ConfigureSettings` resolve to `never`, so the clash fails to compile. Then add the rule to the "Core rules" list in `README.md` (outside the generated section, so write it by hand) and cover it in `src/configure.spec.ts` and the smoke test.
 
 ## Commits
 
