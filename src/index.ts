@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
 import { coreRules, type CoreRuleName } from './core-rules.js';
 import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
+import { noClassInheritance } from './rules/classes/no-class-inheritance.js';
 import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { noElse } from './rules/functions/no-else.js';
@@ -14,6 +15,7 @@ const pkg = createRequire(import.meta.url)('../package.json') as { version: stri
 export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
+  'no-class-inheritance': noClassInheritance,
   'no-else': noElse,
   'no-switch': noSwitch,
   'prefer-inline-template': preferInlineTemplate,

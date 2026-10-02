@@ -33,6 +33,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-class-inheritance with only the severity', () => {
+    expect(configure({ 'no-class-inheritance': true }).rules).toEqual({
+      'stoic-angular/no-class-inheritance': 'error',
+    });
+  });
+
   it('enables no-switch with only the severity', () => {
     expect(configure({ 'no-switch': true }).rules).toEqual({
       'stoic-angular/no-switch': 'error',
@@ -110,6 +116,13 @@ describe('configure settings types', () => {
     configure({ 'no-else': false });
   });
 
+  it('accepts only true for no-class-inheritance', () => {
+    // @ts-expect-error no-class-inheritance has no options
+    configure({ 'no-class-inheritance': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-class-inheritance': false });
+  });
+
   it('accepts only true for no-switch', () => {
     // @ts-expect-error no-switch has no options
     configure({ 'no-switch': {} });
@@ -176,6 +189,7 @@ describe('settings derived from rule definitions', () => {
     expectTypeOf<keyof Settings>().toEqualTypeOf<
       | 'if-only-at-start'
       | 'max-function-lines'
+      | 'no-class-inheritance'
       | 'no-else'
       | 'no-switch'
       | 'prefer-inline-template'
