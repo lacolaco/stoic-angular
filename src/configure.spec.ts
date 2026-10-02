@@ -45,6 +45,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables call-or-pass with only the severity', () => {
+    expect(configure({ 'call-or-pass': true }).rules).toEqual({
+      'stoic-angular/call-or-pass': 'error',
+    });
+  });
+
   it('enables prefer-inline-template with and without options', () => {
     expect(configure({ 'prefer-inline-template': true }).rules).toEqual({
       'stoic-angular/prefer-inline-template': 'error',
@@ -130,6 +136,13 @@ describe('configure settings types', () => {
     configure({ 'no-switch': false });
   });
 
+  it('accepts only true for call-or-pass', () => {
+    // @ts-expect-error call-or-pass has no options
+    configure({ 'call-or-pass': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'call-or-pass': false });
+  });
+
   it('checks the prefer-inline-template settings', () => {
     configure({ 'prefer-inline-template': true });
     configure({ 'prefer-inline-template': { maxLines: 5 } });
@@ -187,6 +200,7 @@ describe('settings derived from rule definitions', () => {
 
   it('only accepts known rule names', () => {
     expectTypeOf<keyof Settings>().toEqualTypeOf<
+      | 'call-or-pass'
       | 'if-only-at-start'
       | 'max-function-lines'
       | 'no-class-inheritance'

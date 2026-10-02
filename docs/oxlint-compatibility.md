@@ -6,6 +6,7 @@ Verified with oxlint 1.86.0 (JS plugins, alpha) on Node.js 22. The built plugin 
 
 | Rule | Works | APIs exercised |
 | --- | --- | --- |
+| `call-or-pass` | yes | `sourceCode.scopeManager` (`variables`, `references`), `getFunctionHeadLocation` |
 | `if-only-at-start` | yes | `sourceCode.getFirstToken` |
 | `max-function-lines` | yes | rule options, `sourceCode` |
 | `no-class-inheritance` | yes | `ClassDeclaration` and `ClassExpression` nodes |
