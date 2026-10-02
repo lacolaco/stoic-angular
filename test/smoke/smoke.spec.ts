@@ -10,15 +10,19 @@ async function lintSample(): Promise<Linter.LintMessage[]> {
     cwd,
     overrideConfigFile: true,
     overrideConfig: [
-      { files: ['**/*.ts'], languageOptions: { parser: tsParser } },
-      plugin.configs.recommended as Linter.Config,
+      {
+        files: ['**/*.ts'],
+        languageOptions: { parser: tsParser },
+        plugins: { 'stoic-angular': plugin },
+        rules: { 'stoic-angular/max-function-lines': 'error' },
+      } as Linter.Config,
     ],
   });
   const [result] = await eslint.lintFiles(['sample.ts']);
   return result.messages;
 }
 
-describe('smoke test: applying the recommended config to a sample', () => {
+describe('smoke test: enabling a rule in a flat config', () => {
   it('reports max-function-lines only for the function over the limit', async () => {
     const messages = await lintSample();
     const reports = messages.filter((m) => m.ruleId === 'stoic-angular/max-function-lines');
