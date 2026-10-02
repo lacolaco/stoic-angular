@@ -30,7 +30,6 @@ export default defineConfig({
   extends: [
     stoicAngular.configure({
       'max-function-lines': { maxLines: 8 },
-      // 'rule-without-options': true,
     }),
   ],
 });
