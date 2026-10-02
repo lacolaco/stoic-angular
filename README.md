@@ -1,6 +1,6 @@
 # eslint-plugin-stoic-angular
 
-An ESLint plugin that imposes design constraints on Angular projects through lint checks, with no room to loosen them. Many of the rules come from the rules in the book _Five Lines of Code_ by Christian Clausen. This project is not affiliated with or endorsed by the book or its author.
+An ESLint plugin that imposes strict design constraints on Angular projects through lint checks. Many of the rules come from the rules in the book _Five Lines of Code_ by Christian Clausen. This project is not affiliated with or endorsed by the book or its author.
 
 ## Installation
 
