@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
+import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { buildConfig, type ConfigureSettings } from './support/configure.js';
 
@@ -7,6 +8,7 @@ import { buildConfig, type ConfigureSettings } from './support/configure.js';
 const pkg = createRequire(import.meta.url)('../package.json') as { version: string };
 
 export const rules = {
+  'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
 };
 

@@ -1,7 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import plugin, { configure } from './index';
+import plugin, { configure, rules } from './index';
 import type { ConfigureSettings } from './support/configure';
-import type { TSESLint } from '@typescript-eslint/utils';
 import type { Linter } from 'eslint';
 
 describe('configure', () => {
@@ -21,6 +20,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables a rule without options with only the severity', () => {
+    expect(configure({ 'if-only-at-start': true }).rules).toEqual({
+      'stoic-angular/if-only-at-start': 'error',
+    });
+  });
+
   it('passes the options after the severity', () => {
     expect(configure({ 'max-function-lines': { maxLines: 8 } }).rules).toEqual({
       'stoic-angular/max-function-lines': ['error', { maxLines: 8 }],
@@ -34,6 +39,8 @@ describe('configure settings types', () => {
     configure({ 'max-function-lines': true });
     configure({ 'max-function-lines': {} });
     configure({ 'max-function-lines': { maxLines: 8 } });
+    configure({ 'if-only-at-start': true });
+    configure({ 'if-only-at-start': true, 'max-function-lines': { maxLines: 8 } });
   });
 
   it('rejects unknown rule names', () => {
@@ -50,28 +57,34 @@ describe('configure settings types', () => {
     configure({ 'max-function-lines': false });
   });
 
+  it('accepts only true for a rule without options', () => {
+    // @ts-expect-error if-only-at-start has no options
+    configure({ 'if-only-at-start': {} });
+    // @ts-expect-error if-only-at-start has no options
+    configure({ 'if-only-at-start': { maxLines: 8 } });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'if-only-at-start': false });
+  });
+
   it('returns a flat config object', () => {
     expectTypeOf(configure({})).toEqualTypeOf<Linter.Config>();
   });
 });
 
 describe('settings derived from rule definitions', () => {
-  type Rule<Options extends readonly unknown[]> = TSESLint.RuleModule<'message', Options>;
-  type Rules = {
-    'no-options': Rule<[]>;
-    'with-options': Rule<[{ limit?: number }?]>;
-  };
-  type Settings = ConfigureSettings<Rules>;
+  type Settings = ConfigureSettings<typeof rules>;
 
   it('allows only true for a rule without options', () => {
-    expectTypeOf<Settings['no-options']>().toEqualTypeOf<true | undefined>();
+    expectTypeOf<Settings['if-only-at-start']>().toEqualTypeOf<true | undefined>();
   });
 
   it('allows true or the first option for a rule with options', () => {
-    expectTypeOf<Settings['with-options']>().toEqualTypeOf<true | { limit?: number } | undefined>();
+    expectTypeOf<Settings['max-function-lines']>().toEqualTypeOf<
+      true | { maxLines?: number } | undefined
+    >();
   });
 
   it('only accepts known rule names', () => {
-    expectTypeOf<keyof Settings>().toEqualTypeOf<'no-options' | 'with-options'>();
+    expectTypeOf<keyof Settings>().toEqualTypeOf<'if-only-at-start' | 'max-function-lines'>();
   });
 });

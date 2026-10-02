@@ -43,4 +43,13 @@ describe('oxlint jsPlugins compatibility', () => {
     );
     expect(reports).toHaveLength(1);
   });
+
+  it('reports if-only-at-start', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(if-only-at-start)' &&
+        d.filename.startsWith('fixtures/if-only-at-start/'),
+    );
+    expect(reports).toHaveLength(1);
+  });
 });
