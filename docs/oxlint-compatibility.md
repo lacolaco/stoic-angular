@@ -8,6 +8,7 @@ Verified with oxlint 1.86.0 (JS plugins, alpha) on Node.js 22. The built plugin 
 | --- | --- | --- |
 | `if-only-at-start` | yes | `sourceCode.getFirstToken` |
 | `max-function-lines` | yes | rule options, `sourceCode` |
+| `no-else` | yes | `sourceCode.getFirstToken` |
 
 Other findings:
 

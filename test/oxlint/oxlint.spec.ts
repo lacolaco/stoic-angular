@@ -52,4 +52,11 @@ describe('oxlint jsPlugins compatibility', () => {
     );
     expect(reports).toHaveLength(1);
   });
+
+  it('reports no-else', () => {
+    const reports = diagnostics.filter(
+      (d) => d.code === 'stoic-angular(no-else)' && d.filename.startsWith('fixtures/no-else/'),
+    );
+    expect(reports).toHaveLength(1);
+  });
 });

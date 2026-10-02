@@ -100,7 +100,11 @@ function dispatch(kind: string) {
 }
 ```
 
+This chain is allowed by this rule alone. With [`no-else`](no-else.md) enabled as well, it is reported, because `no-else` reports every `if` that has an `else`.
+
 ## Related rules
+
+Together with [`no-else`](no-else.md), this rule forbids every `else if` chain: this rule allows the chain, and `no-else` reports each `if` in it that has an `else`.
 
 The rule treats an `if` without braces the same as one with braces, so it does not depend on the core `curly` rule. A style that also requires braces on every control statement can enable `curly` with `'all'` alongside it.
 

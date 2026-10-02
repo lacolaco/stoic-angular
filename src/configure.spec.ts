@@ -26,6 +26,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-else with only the severity', () => {
+    expect(configure({ 'no-else': true }).rules).toEqual({
+      'stoic-angular/no-else': 'error',
+    });
+  });
+
   it('passes the options after the severity', () => {
     expect(configure({ 'max-function-lines': { maxLines: 8 } }).rules).toEqual({
       'stoic-angular/max-function-lines': ['error', { maxLines: 8 }],
@@ -66,6 +72,13 @@ describe('configure settings types', () => {
     configure({ 'if-only-at-start': false });
   });
 
+  it('accepts only true for no-else', () => {
+    // @ts-expect-error no-else has no options
+    configure({ 'no-else': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-else': false });
+  });
+
   it('returns a flat config object', () => {
     expectTypeOf(configure({})).toEqualTypeOf<Linter.Config>();
   });
@@ -85,6 +98,8 @@ describe('settings derived from rule definitions', () => {
   });
 
   it('only accepts known rule names', () => {
-    expectTypeOf<keyof Settings>().toEqualTypeOf<'if-only-at-start' | 'max-function-lines'>();
+    expectTypeOf<keyof Settings>().toEqualTypeOf<
+      'if-only-at-start' | 'max-function-lines' | 'no-else'
+    >();
   });
 });
