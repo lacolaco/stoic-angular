@@ -19,7 +19,7 @@ Everything in this repository and everything published from it is written in Eng
 - `pnpm build`: compile `src/` to `dist/`
 - `pnpm typecheck`: type-check the whole repository
 - `pnpm test`: run the rule specs and the smoke test with vitest
-- `pnpm docs`: build, then regenerate the README rules list and the rule doc headers with eslint-doc-generator
+- `pnpm docs:generate`: build, then regenerate the README rules list and the rule doc headers with eslint-doc-generator
 - `pnpm docs:check`: build, then fail if the generated docs are out of date
 - `pnpm check:english`: enforce the language rule above
 
