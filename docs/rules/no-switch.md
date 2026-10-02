@@ -113,7 +113,7 @@ function label(kind: 'a' | 'b' | 'c'): string {
 The rule does not check that a `switch` covers every member of a union. It forbids `default` so that the type checker can do that job. Two settings complete the guarantee:
 
 - [`@typescript-eslint/switch-exhaustiveness-check`](https://typescript-eslint.io/rules/switch-exhaustiveness-check/) from typescript-eslint reports a `switch` over a union or an enum that lacks a `case` for some member. It needs type information, so the linter has to be configured for [typed linting](https://typescript-eslint.io/troubleshooting/typed-linting/).
-- [`noImplicitReturns: true`](https://www.typescriptlang.org/tsconfig/#noImplicitReturns) in `tsconfig.json`. When a function that returns a value has a `switch` with a missing `case`, the compiler reports error TS2366 (`Function lacks ending return statement and return type does not include 'undefined'`).
+- [`noImplicitReturns: true`](https://www.typescriptlang.org/tsconfig/#noImplicitReturns) in `tsconfig.json`. When a function whose return type includes `undefined` has a `switch` with a missing `case`, the compiler reports error TS7030 (`Not all code paths return a value.`). Without this option, only a function whose return type does not include `undefined` gets a compiler error for a missing `case` (TS2366 under `strictNullChecks`).
 
 ```js
 // eslint.config.js
