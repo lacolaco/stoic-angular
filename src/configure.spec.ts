@@ -39,21 +39,15 @@ describe('configure', () => {
     });
   });
 
-  it('enables no-component-private-method with only the severity', () => {
-    expect(configure({ 'no-component-private-method': true }).rules).toEqual({
-      'stoic-angular/no-component-private-method': 'error',
+  it('enables no-declarable-private-method with only the severity', () => {
+    expect(configure({ 'no-declarable-private-method': true }).rules).toEqual({
+      'stoic-angular/no-declarable-private-method': 'error',
     });
   });
 
-  it('enables no-directive-private-method with only the severity', () => {
-    expect(configure({ 'no-directive-private-method': true }).rules).toEqual({
-      'stoic-angular/no-directive-private-method': 'error',
-    });
-  });
-
-  it('enables no-pipe-private-method with only the severity', () => {
-    expect(configure({ 'no-pipe-private-method': true }).rules).toEqual({
-      'stoic-angular/no-pipe-private-method': 'error',
+  it('passes the option of no-declarable-private-method through', () => {
+    expect(configure({ 'no-declarable-private-method': { allowPipe: true } }).rules).toEqual({
+      'stoic-angular/no-declarable-private-method': ['error', { allowPipe: true }],
     });
   });
 
@@ -147,25 +141,16 @@ describe('configure settings types', () => {
     configure({ 'no-class-inheritance': false });
   });
 
-  it('accepts only true for no-component-private-method', () => {
-    // @ts-expect-error no-component-private-method has no options
-    configure({ 'no-component-private-method': {} });
+  it('accepts boolean keys for the kinds of no-declarable-private-method', () => {
+    configure({ 'no-declarable-private-method': true });
+    configure({ 'no-declarable-private-method': { allowPipe: true } });
+    configure({ 'no-declarable-private-method': {} });
+    // @ts-expect-error the key is allowPipe, not pipe
+    configure({ 'no-declarable-private-method': { pipe: true } });
+    // @ts-expect-error the value must be a boolean
+    configure({ 'no-declarable-private-method': { allowPipe: 'yes' } });
     // @ts-expect-error false is not a valid setting
-    configure({ 'no-component-private-method': false });
-  });
-
-  it('accepts only true for no-directive-private-method', () => {
-    // @ts-expect-error no-directive-private-method has no options
-    configure({ 'no-directive-private-method': {} });
-    // @ts-expect-error false is not a valid setting
-    configure({ 'no-directive-private-method': false });
-  });
-
-  it('accepts only true for no-pipe-private-method', () => {
-    // @ts-expect-error no-pipe-private-method has no options
-    configure({ 'no-pipe-private-method': {} });
-    // @ts-expect-error false is not a valid setting
-    configure({ 'no-pipe-private-method': false });
+    configure({ 'no-declarable-private-method': false });
   });
 
   it('accepts only true for no-switch', () => {
@@ -243,9 +228,7 @@ describe('settings derived from rule definitions', () => {
       | 'if-only-at-start'
       | 'max-function-lines'
       | 'no-class-inheritance'
-      | 'no-component-private-method'
-      | 'no-directive-private-method'
-      | 'no-pipe-private-method'
+      | 'no-declarable-private-method'
       | 'no-else'
       | 'no-switch'
       | 'prefer-inline-template'

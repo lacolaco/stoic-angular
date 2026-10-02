@@ -1,9 +1,7 @@
 import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
 import { coreRules, type CoreRuleName } from './core-rules.js';
-import { noComponentPrivateMethod } from './rules/angular/no-component-private-method.js';
-import { noDirectivePrivateMethod } from './rules/angular/no-directive-private-method.js';
-import { noPipePrivateMethod } from './rules/angular/no-pipe-private-method.js';
+import { noDeclarablePrivateMethod } from './rules/angular/no-declarable-private-method.js';
 import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
 import { noClassInheritance } from './rules/classes/no-class-inheritance.js';
 import { callOrPass } from './rules/functions/call-or-pass.js';
@@ -21,10 +19,8 @@ export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
   'no-class-inheritance': noClassInheritance,
-  'no-component-private-method': noComponentPrivateMethod,
-  'no-directive-private-method': noDirectivePrivateMethod,
+  'no-declarable-private-method': noDeclarablePrivateMethod,
   'no-else': noElse,
-  'no-pipe-private-method': noPipePrivateMethod,
   'no-switch': noSwitch,
   'prefer-inline-template': preferInlineTemplate,
 };
