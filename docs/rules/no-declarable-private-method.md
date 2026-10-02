@@ -42,14 +42,11 @@ Every key defaults to `false`, so all three kinds are checked without options an
 With `configure`, `true` checks all three kinds, and an option object excludes the kinds you allow:
 
 ```js
-import stoicAngular from 'eslint-plugin-stoic-angular';
+// Check components, directives and pipes
+stoicAngular.configure({ 'no-declarable-private-method': true });
 
-export default [
-  // Check components, directives and pipes (use one of these two forms, not both)
-  stoicAngular.configure({ 'no-declarable-private-method': true }),
-  // Check components and directives; allow private methods in pipes
-  stoicAngular.configure({ 'no-declarable-private-method': { allowPipe: true } }),
-];
+// Check components and directives; allow private methods in pipes
+stoicAngular.configure({ 'no-declarable-private-method': { allowPipe: true } });
 ```
 
 With a flat config written by hand:
