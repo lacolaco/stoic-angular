@@ -16,24 +16,29 @@ It requires ESLint 10 (`eslint@^10.0.0`).
 
 ### ESLint
 
-The plugin has no preset configs. Register the plugin and enable each rule yourself, so that every constraint in your project is one you chose. This example reads TypeScript with the `typescript-eslint` parser.
+The plugin has no preset configs. Pass `configure` the rules you want, so that every constraint in your project is one you chose. Only the rules you list are enabled. This example reads TypeScript with the `typescript-eslint` parser.
 
 ```js
 // eslint.config.js
 import tsParser from '@typescript-eslint/parser';
+import { defineConfig } from 'eslint/config';
 import stoicAngular from 'eslint-plugin-stoic-angular';
 
-export default [
-  {
-    files: ['**/*.ts'],
-    languageOptions: { parser: tsParser },
-    plugins: { 'stoic-angular': stoicAngular },
-    rules: {
-      'stoic-angular/max-function-lines': 'error',
-    },
-  },
-];
+export default defineConfig({
+  files: ['**/*.ts'],
+  languageOptions: { parser: tsParser },
+  extends: [
+    stoicAngular.configure({
+      'max-function-lines': { maxLines: 8 },
+      // 'rule-without-options': true,
+    }),
+  ],
+});
 ```
+
+- A key is a rule name without the `stoic-angular/` prefix. An unknown name is a type error in a TypeScript config.
+- `true` enables a rule with its default options. A rule that takes options also accepts them as the value.
+- The severity is always `error`.
 
 ### oxlint
 
