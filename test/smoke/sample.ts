@@ -13,3 +13,7 @@ export function short(): number {
   const b = 2;
   return a + b;
 }
+
+export function nested(a: boolean, b: boolean): number {
+  return a ? b ? 1 : 2 : 3;
+}

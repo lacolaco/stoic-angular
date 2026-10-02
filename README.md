@@ -30,6 +30,7 @@ export default defineConfig({
   extends: [
     stoicAngular.configure({
       'max-function-lines': { maxLines: 8 },
+      'no-nested-ternary': true,
     }),
   ],
 });
@@ -37,6 +38,7 @@ export default defineConfig({
 
 - A key is a rule name without the `stoic-angular/` prefix. An unknown name is a type error in a TypeScript config.
 - `true` enables a rule with its default options. A rule that takes options also accepts them as the value.
+- The same call also enables the ESLint core rules listed under [Core rules](#core-rules). Their keys have no prefix, and they are enabled under their own names (`no-nested-ternary`, not `stoic-angular/no-nested-ternary`).
 - The severity is always `error`.
 
 ### oxlint
@@ -69,6 +71,12 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 | [prefer-inline-template](docs/rules/prefer-inline-template.md) | Requires short templates to be inline templates instead of templateUrl.                  | 🔧 |
 
 <!-- end auto-generated rules list -->
+
+## Core rules
+
+`configure` also enables the following ESLint core rules, which fit the same discipline. Each one is opt-in, like the plugin rules.
+
+- [`no-nested-ternary`](https://eslint.org/docs/latest/rules/no-nested-ternary): Disallows nested ternary expressions.
 
 ## License
 

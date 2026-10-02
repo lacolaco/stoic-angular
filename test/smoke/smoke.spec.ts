@@ -43,4 +43,14 @@ describe('smoke test: enabling a rule through configure in defineConfig extends'
     const messages = await lintSample({});
     expect(messages.filter((m) => m.ruleId === ruleId)).toHaveLength(0);
   });
+
+  it('reports a nested ternary only when no-nested-ternary is enabled', async () => {
+    const messages = await lintSample({ 'no-nested-ternary': true });
+    const reports = messages.filter((m) => m.ruleId === 'no-nested-ternary');
+    expect(reports).toHaveLength(1);
+    expect(reports[0]?.line).toBe(18);
+    expect(reports[0]?.severity).toBe(2);
+    const none = await lintSample({});
+    expect(none.filter((m) => m.ruleId === 'no-nested-ternary')).toHaveLength(0);
+  });
 });
