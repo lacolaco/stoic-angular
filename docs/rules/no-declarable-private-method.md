@@ -10,7 +10,7 @@ A component, directive or pipe class should not have private methods. Move the l
 
 The rule checks class declarations decorated with `@Component({...})`, `@Directive({...})` or `@Pipe({...})` from `@angular/core` and reports these members:
 
-- Methods with the TypeScript `private` modifier or a `#private` name, including `get` and `set` accessors. `constructor` is not reported.
+- Methods with the TypeScript `private` modifier or a `#private` name, including `get` and `set` accessors. `constructor` is not reported. To forbid accessors of every modifier, see [`no-declarable-accessor`](no-declarable-accessor.md).
 
 The report is placed on the member, and its message names the kind (component, directive or pipe). `protected` and public members are allowed, and so are private fields, including fields whose value is a function (for example `private readonly toggle = () => ...`).
 

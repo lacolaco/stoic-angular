@@ -10,6 +10,7 @@ Verified with oxlint 1.86.0 (JS plugins, alpha) on Node.js 22. The built plugin 
 | `if-only-at-start` | yes | `sourceCode.getFirstToken` |
 | `max-function-lines` | yes | rule options, `sourceCode` |
 | `no-class-inheritance` | yes | `ClassDeclaration` and `ClassExpression` nodes |
+| `no-declarable-accessor` | yes | `ClassDeclaration` decorators, `sourceCode.ast` import declarations |
 | `no-declarable-private-method` | yes | `ClassDeclaration` decorators, `sourceCode.ast` import declarations |
 | `no-else` | yes | `sourceCode.getFirstToken` |
 | `no-switch` | yes | `SwitchStatement` and `SwitchCase` nodes |
