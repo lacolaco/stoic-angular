@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
 import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
+import { noElse } from './rules/functions/no-else.js';
 import { buildConfig, type ConfigureSettings } from './support/configure.js';
 
 // Resolves the root package.json from both dist/index.js and src/index.ts
@@ -10,6 +11,7 @@ const pkg = createRequire(import.meta.url)('../package.json') as { version: stri
 export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
+  'no-else': noElse,
 };
 
 const meta = { name: 'eslint-plugin-stoic-angular', version: pkg.version, namespace: 'stoic-angular' };
