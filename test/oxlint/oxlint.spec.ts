@@ -63,6 +63,13 @@ describe('oxlint jsPlugins compatibility', () => {
     expect(reports).toHaveLength(1);
   });
 
+  it('reports no-switch', () => {
+    const reports = diagnostics.filter(
+      (d) => d.code === 'stoic-angular(no-switch)' && d.filename.startsWith('fixtures/no-switch/'),
+    );
+    expect(reports).toHaveLength(1);
+  });
+
   it('reports prefer-inline-template (context.filename and node:fs)', () => {
     const reports = diagnostics.filter(
       (d) =>

@@ -32,6 +32,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-switch with only the severity', () => {
+    expect(configure({ 'no-switch': true }).rules).toEqual({
+      'stoic-angular/no-switch': 'error',
+    });
+  });
+
   it('enables prefer-inline-template with and without options', () => {
     expect(configure({ 'prefer-inline-template': true }).rules).toEqual({
       'stoic-angular/prefer-inline-template': 'error',
@@ -88,6 +94,13 @@ describe('configure settings types', () => {
     configure({ 'no-else': false });
   });
 
+  it('accepts only true for no-switch', () => {
+    // @ts-expect-error no-switch has no options
+    configure({ 'no-switch': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-switch': false });
+  });
+
   it('checks the prefer-inline-template settings', () => {
     configure({ 'prefer-inline-template': true });
     configure({ 'prefer-inline-template': { maxLines: 5 } });
@@ -117,7 +130,11 @@ describe('settings derived from rule definitions', () => {
 
   it('only accepts known rule names', () => {
     expectTypeOf<keyof Settings>().toEqualTypeOf<
-      'if-only-at-start' | 'max-function-lines' | 'no-else' | 'prefer-inline-template'
+      | 'if-only-at-start'
+      | 'max-function-lines'
+      | 'no-else'
+      | 'no-switch'
+      | 'prefer-inline-template'
     >();
   });
 });

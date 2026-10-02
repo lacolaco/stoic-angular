@@ -4,6 +4,7 @@ import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js'
 import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { noElse } from './rules/functions/no-else.js';
+import { noSwitch } from './rules/functions/no-switch.js';
 import { buildConfig, type ConfigureSettings } from './support/configure.js';
 
 // Resolves the root package.json from both dist/index.js and src/index.ts
@@ -13,6 +14,7 @@ export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
   'no-else': noElse,
+  'no-switch': noSwitch,
   'prefer-inline-template': preferInlineTemplate,
 };
 
