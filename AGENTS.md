@@ -27,7 +27,8 @@ Everything in this repository and everything published from it is written in Eng
 
 - `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/`)
 - `src/support/`: shared helpers; every rule is created through `createRule` in `create-rule.ts`
-- `src/index.ts`: the plugin object (`meta` and `rules`)
+- `src/index.ts`: the plugin object (`meta`, `rules` and `configure`)
+- `src/support/configure.ts`: the types and the builder behind `configure`
 - `test/smoke/`: enables a rule in a flat config and lints a sample through the `ESLint` class
 - `test/oxlint/`: runs the built plugin under oxlint (see `docs/oxlint-compatibility.md`)
 
@@ -38,6 +39,10 @@ A rule that uses type information sets `meta.docs.requiresTypeChecking: true`, s
 ## No preset configs
 
 The plugin does not export `configs` (no `recommended`, no `all`). Every rule imposes a strict constraint, and users should enable each one explicitly, knowing what it constrains. Do not add preset configs.
+
+## `configure`
+
+`plugin.configure(settings)` returns a flat config that registers the plugin and enables only the listed rules, always as `error`. Its `settings` type is derived from `typeof rules` in `src/index.ts` and from each rule's `RuleModule` type arguments: the keys are the rule names, and a value is `true` or the rule's first option. Adding a rule to `rules` is therefore all `configure` needs; do not write per-rule types by hand. `src/configure.spec.ts` checks the types.
 
 ## Commits
 
