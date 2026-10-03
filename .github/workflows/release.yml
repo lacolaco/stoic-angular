@@ -51,14 +51,18 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-          registry-url: https://registry.npmjs.org
       - run: npm install -g npm@^11.5.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-      # npm tries trusted publishing (OIDC) first and falls back to NPM_TOKEN.
       # NPM_TOKEN is only needed for the first release, before the package
-      # exists on npm and a trusted publisher can be attached to it.
-      - run: npm publish --provenance
+      # exists on npm and a trusted publisher can be attached to it. Without
+      # the secret, no token is configured and npm uses trusted publishing.
+      - name: Configure NPM_TOKEN when present
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "$NPM_TOKEN" ]; then
+            npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+          fi
+      - run: npm publish --provenance
