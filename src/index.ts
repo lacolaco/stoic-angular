@@ -1,6 +1,7 @@
 import { createRequire } from 'node:module';
 import type { Linter } from 'eslint';
 import { coreRules, type CoreRuleName } from './core-rules.js';
+import { noDeclarableAccessor } from './rules/angular/no-declarable-accessor.js';
 import { noDeclarablePrivateMethod } from './rules/angular/no-declarable-private-method.js';
 import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
 import { noClassInheritance } from './rules/classes/no-class-inheritance.js';
@@ -19,6 +20,7 @@ export const rules = {
   'if-only-at-start': ifOnlyAtStart,
   'max-function-lines': maxFunctionLines,
   'no-class-inheritance': noClassInheritance,
+  'no-declarable-accessor': noDeclarableAccessor,
   'no-declarable-private-method': noDeclarablePrivateMethod,
   'no-else': noElse,
   'no-switch': noSwitch,

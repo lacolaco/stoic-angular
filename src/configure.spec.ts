@@ -39,6 +39,18 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-declarable-accessor with only the severity', () => {
+    expect(configure({ 'no-declarable-accessor': true }).rules).toEqual({
+      'stoic-angular/no-declarable-accessor': 'error',
+    });
+  });
+
+  it('passes the option of no-declarable-accessor through', () => {
+    expect(configure({ 'no-declarable-accessor': { allowPipe: true } }).rules).toEqual({
+      'stoic-angular/no-declarable-accessor': ['error', { allowPipe: true }],
+    });
+  });
+
   it('enables no-declarable-private-method with only the severity', () => {
     expect(configure({ 'no-declarable-private-method': true }).rules).toEqual({
       'stoic-angular/no-declarable-private-method': 'error',
@@ -141,6 +153,18 @@ describe('configure settings types', () => {
     configure({ 'no-class-inheritance': false });
   });
 
+  it('accepts boolean keys for the kinds of no-declarable-accessor', () => {
+    configure({ 'no-declarable-accessor': true });
+    configure({ 'no-declarable-accessor': { allowPipe: true } });
+    configure({ 'no-declarable-accessor': {} });
+    // @ts-expect-error the key is allowPipe, not pipe
+    configure({ 'no-declarable-accessor': { pipe: true } });
+    // @ts-expect-error the value must be a boolean
+    configure({ 'no-declarable-accessor': { allowPipe: 'yes' } });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-declarable-accessor': false });
+  });
+
   it('accepts boolean keys for the kinds of no-declarable-private-method', () => {
     configure({ 'no-declarable-private-method': true });
     configure({ 'no-declarable-private-method': { allowPipe: true } });
@@ -228,6 +252,7 @@ describe('settings derived from rule definitions', () => {
       | 'if-only-at-start'
       | 'max-function-lines'
       | 'no-class-inheritance'
+      | 'no-declarable-accessor'
       | 'no-declarable-private-method'
       | 'no-else'
       | 'no-switch'

@@ -1,27 +1,16 @@
 import { type TSESLint, type TSESTree } from '@typescript-eslint/utils';
-import { isAngularCoreDecorator } from '../../support/angular-imports.js';
 import { createRule } from '../../support/create-rule.js';
+import {
+  type AllowOptions,
+  allowOptionsSchema,
+  declarableKindOf,
+  defaultAllowOptions,
+} from '../../support/declarables.js';
 
 type MessageIds = 'privateMethod';
-type Kind = 'component' | 'directive' | 'pipe';
-type AllowOptions = { allowComponent?: boolean; allowDirective?: boolean; allowPipe?: boolean };
 type Options = [AllowOptions?];
 type Context = TSESLint.RuleContext<MessageIds, Options>;
 type Member = TSESTree.MethodDefinition | TSESTree.PropertyDefinition;
-
-const DECORATORS: Record<Kind, string> = {
-  component: 'Component',
-  directive: 'Directive',
-  pipe: 'Pipe',
-};
-
-const ALLOW_KEYS: Record<Kind, keyof AllowOptions> = {
-  component: 'allowComponent',
-  directive: 'allowDirective',
-  pipe: 'allowPipe',
-};
-
-const KINDS = Object.keys(DECORATORS) as Kind[];
 
 function isHidden(member: Member): boolean {
   const { accessibility, key } = member;
@@ -39,20 +28,8 @@ function isBuried(member: TSESTree.ClassElement): boolean {
   return scoped && isHidden(member as Member) && isBehavioral(member as Member);
 }
 
-function kindOf(
-  context: Context,
-  options: AllowOptions,
-  cls: TSESTree.ClassDeclaration,
-): Kind | undefined {
-  const { ast } = context.sourceCode;
-  const targets = KINDS.filter((kind) => options[ALLOW_KEYS[kind]] !== true);
-  return targets.find((kind) =>
-    cls.decorators.some((node) => isAngularCoreDecorator(ast, node, DECORATORS[kind])),
-  );
-}
-
 function audit(context: Context, options: AllowOptions, cls: TSESTree.ClassDeclaration): void {
-  const kind = kindOf(context, options, cls);
+  const kind = declarableKindOf(context.sourceCode, options, cls);
   const members = kind === undefined ? [] : cls.body.body;
   members
     .filter(isBuried)
@@ -72,19 +49,9 @@ export const noDeclarablePrivateMethod = createRule<Options, MessageIds>({
       privateMethod:
         'Do not put private methods in a {{kind}}. Move the logic to a collaborating object such as a service or a function',
     },
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          allowComponent: { type: 'boolean' },
-          allowDirective: { type: 'boolean' },
-          allowPipe: { type: 'boolean' },
-        },
-        additionalProperties: false,
-      },
-    ],
+    schema: [allowOptionsSchema],
   },
-  defaultOptions: [{ allowComponent: false, allowDirective: false, allowPipe: false }],
+  defaultOptions: [defaultAllowOptions],
   create(context, [options]) {
     return { ClassDeclaration: (node) => audit(context, options ?? {}, node) };
   },

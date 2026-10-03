@@ -6,6 +6,7 @@
     "stoic-angular/if-only-at-start": "error",
     "stoic-angular/max-function-lines": "error",
     "stoic-angular/no-class-inheritance": "error",
+    "stoic-angular/no-declarable-accessor": "error",
     "stoic-angular/no-declarable-private-method": "error",
     "stoic-angular/no-else": "error",
     "stoic-angular/no-switch": "error",
