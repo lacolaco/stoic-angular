@@ -1,18 +1,25 @@
 {
   "name": "eslint-plugin-stoic-angular",
   "version": "0.0.0",
-  "description": "ESLint plugin that enforces stoic Angular design conventions",
+  "description": "ESLint plugin that imposes strict design constraints on Angular code, with rules drawn from Five Lines of Code",
   "license": "MIT",
   "author": "Suguru Inatomi",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lacolaco/stoic-angular.git"
   },
+  "homepage": "https://github.com/lacolaco/stoic-angular#readme",
+  "bugs": {
+    "url": "https://github.com/lacolaco/stoic-angular/issues"
+  },
   "keywords": [
     "eslint",
     "eslintplugin",
     "eslint-plugin",
-    "angular"
+    "angular",
+    "oxlint",
+    "lint",
+    "five-lines-of-code"
   ],
   "type": "module",
   "main": "./dist/index.js",
@@ -26,6 +33,12 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
