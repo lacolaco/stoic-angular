@@ -78,7 +78,7 @@ Version bumps follow the commit types: `fix:` is a patch, `feat:` is a minor, an
 
 ### One-time setup (done by a person)
 
-- The workflow publishes with trusted publishing only and never uses an npm token. npm cannot attach a trusted publisher to a package that does not exist yet, so the package is created once by hand: from a clean checkout of `main` (version `0.0.0`), run `npm publish --auth-type=web`, which authenticates with two-factor authentication in the browser instead of a long-lived token.
+- The workflow publishes with trusted publishing only and never uses an npm token. npm cannot attach a trusted publisher to a package that does not exist yet, so the package is created once by hand: from a clean checkout of `main` (version `0.0.0`), run `pnpm install --frozen-lockfile`, `pnpm build` and then `npm publish --auth-type=web`, which authenticates with two-factor authentication in the browser instead of a long-lived token.
 - On npmjs.com, open the package settings, add a trusted publisher (GitHub Actions, owner `lacolaco`, repository `stoic-angular`, workflow filename `release.yml`), and set publishing access to disallow tokens.
 - After the workflow has published `1.0.0`, deprecate the bootstrap version: `npm deprecate eslint-plugin-stoic-angular@0.0.0 "Bootstrap release; use 1.0.0 or later"`.
 - Store a GitHub App installation token or a personal access token as the `RELEASE_PLEASE_TOKEN` secret. A release PR opened with the default `GITHUB_TOKEN` would not start CI, so it could never pass the required checks on `main`; the workflow therefore fails when the secret is missing instead of falling back.
