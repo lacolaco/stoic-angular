@@ -9,6 +9,7 @@
     "stoic-angular/no-declarable-accessor": "error",
     "stoic-angular/no-declarable-private-method": "error",
     "stoic-angular/no-else": "error",
+    "stoic-angular/no-extra-exports": "error",
     "stoic-angular/no-switch": "error",
     "stoic-angular/prefer-inline-template": "error"
   }

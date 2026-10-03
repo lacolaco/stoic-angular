@@ -98,6 +98,15 @@ describe('oxlint jsPlugins compatibility', () => {
     expect(reports).toHaveLength(1);
   });
 
+  it('reports no-extra-exports for each export besides the first decorated class', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(no-extra-exports)' &&
+        d.filename.startsWith('fixtures/no-extra-exports/'),
+    );
+    expect(reports).toHaveLength(2);
+  });
+
   it('reports no-switch', () => {
     const reports = diagnostics.filter(
       (d) => d.code === 'stoic-angular(no-switch)' && d.filename.startsWith('fixtures/no-switch/'),

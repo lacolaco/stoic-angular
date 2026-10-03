@@ -3,6 +3,7 @@ import type { Linter } from 'eslint';
 import { coreRules, type CoreRuleName } from './core-rules.js';
 import { noDeclarableAccessor } from './rules/angular/no-declarable-accessor.js';
 import { noDeclarablePrivateMethod } from './rules/angular/no-declarable-private-method.js';
+import { noExtraExports } from './rules/angular/no-extra-exports.js';
 import { preferInlineTemplate } from './rules/angular/prefer-inline-template.js';
 import { noClassInheritance } from './rules/classes/no-class-inheritance.js';
 import { callOrPass } from './rules/functions/call-or-pass.js';
@@ -28,6 +29,7 @@ export const rules = {
   'no-declarable-accessor': noDeclarableAccessor,
   'no-declarable-private-method': noDeclarablePrivateMethod,
   'no-else': noElse,
+  'no-extra-exports': noExtraExports,
   'no-switch': noSwitch,
   'prefer-inline-template': preferInlineTemplate,
 };
