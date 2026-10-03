@@ -56,4 +56,6 @@ jobs:
       - run: pnpm build
       - run: pnpm test
       # Publishes with trusted publishing (OIDC) only; no npm token is used.
-      - run: npm publish --provenance
+      # pnpm 10 delegates to the npm CLI installed above. The checkout is a
+      # detached tag, so pnpm's branch check is turned off.
+      - run: pnpm publish --provenance --no-git-checks
