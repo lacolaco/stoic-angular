@@ -48,7 +48,13 @@ jobs:
           node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@^11.5.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+      # npm tries trusted publishing (OIDC) first and falls back to NPM_TOKEN.
+      # NPM_TOKEN is only needed for the first release, before the package
+      # exists on npm and a trusted publisher can be attached to it.
       - run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
