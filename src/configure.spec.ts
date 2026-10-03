@@ -76,6 +76,12 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-extra-exports with only the severity', () => {
+    expect(configure({ 'no-extra-exports': true }).rules).toEqual({
+      'stoic-angular/no-extra-exports': 'error',
+    });
+  });
+
   it('enables no-switch with only the severity', () => {
     expect(configure({ 'no-switch': true }).rules).toEqual({
       'stoic-angular/no-switch': 'error',
@@ -190,6 +196,13 @@ describe('configure settings types', () => {
     configure({ 'no-declarable-private-method': false });
   });
 
+  it('accepts only true for no-extra-exports', () => {
+    // @ts-expect-error no-extra-exports has no options
+    configure({ 'no-extra-exports': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-extra-exports': false });
+  });
+
   it('accepts only true for no-switch', () => {
     // @ts-expect-error no-switch has no options
     configure({ 'no-switch': {} });
@@ -284,6 +297,7 @@ describe('settings derived from rule definitions', () => {
       | 'no-declarable-accessor'
       | 'no-declarable-private-method'
       | 'no-else'
+      | 'no-extra-exports'
       | 'no-inline-union'
       | 'no-switch'
       | 'prefer-inline-template'

@@ -13,6 +13,7 @@ Verified with oxlint 1.86.0 (JS plugins, alpha) on Node.js 22. The built plugin 
 | `no-declarable-accessor` | yes | `ClassDeclaration` decorators, `sourceCode.ast` import declarations |
 | `no-declarable-private-method` | yes | `ClassDeclaration` decorators, `sourceCode.ast` import declarations |
 | `no-else` | yes | `sourceCode.getFirstToken` |
+| `no-extra-exports` | yes | `Program:exit`, export declarations and specifiers, `sourceCode.ast` import declarations |
 | `no-inline-union` | yes | `TSUnionType` visitor, parent chain walk |
 | `no-switch` | yes | `SwitchStatement` and `SwitchCase` nodes |
 | `prefer-inline-template` | yes | `context.filename`, `node:fs`, `--fix` |
