@@ -96,6 +96,7 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 | [no-declarable-accessor](docs/rules/no-declarable-accessor.md)             | Forbids getters and setters in Angular components, directives and pipes and requires signals, signal inputs or methods instead. |    |
 | [no-declarable-private-method](docs/rules/no-declarable-private-method.md) | Forbids private methods in Angular components, directives and pipes and requires moving the logic to collaborating objects.     |    |
 | [no-else](docs/rules/no-else.md)                                           | Disallows combining if and else.                                                                                                |    |
+| [no-inline-union](docs/rules/no-inline-union.md)                           | Requires union types to be written only inside type alias declarations.                                                         |    |
 | [no-switch](docs/rules/no-switch.md)                                       | Disallows default in switch and requires every case to end with return.                                                         |    |
 | [prefer-inline-template](docs/rules/prefer-inline-template.md)             | Requires short templates to be inline templates instead of templateUrl.                                                         | 🔧 |
 
