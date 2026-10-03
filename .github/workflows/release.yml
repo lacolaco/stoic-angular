@@ -21,12 +21,16 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
+      # The release PR must start CI to pass the required checks on main, and a
+      # PR opened with the default GITHUB_TOKEN does not trigger workflows.
+      - name: Require RELEASE_PLEASE_TOKEN
+        env:
+          TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: test -n "$TOKEN" || { echo "::error::Set the RELEASE_PLEASE_TOKEN secret (a GitHub App or personal access token)"; exit 1; }
       - id: release
         uses: googleapis/release-please-action@v5
         with:
-          # A token from a GitHub App or a personal access token lets CI run on
-          # the release PR. The default GITHUB_TOKEN does not trigger workflows.
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 

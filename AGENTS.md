@@ -80,6 +80,5 @@ Version bumps follow the commit types: `fix:` is a patch, `feat:` is a minor, an
 
 - npm cannot attach a trusted publisher to a package that does not exist yet. For the first release, store an npm automation token as the `NPM_TOKEN` secret: npm tries trusted publishing first and falls back to the token, so the workflow publishes `1.0.0` with it.
 - After `1.0.0` is on npm, open the package settings on npmjs.com and add a trusted publisher: GitHub Actions, owner `lacolaco`, repository `stoic-angular`, workflow filename `release.yml`. Then delete the `NPM_TOKEN` secret and revoke the token.
-- In the repository settings, enable "Allow GitHub Actions to create and approve pull requests".
-- The release PR created with the default `GITHUB_TOKEN` does not start CI, so the required checks never report. Store a GitHub App installation token or a personal access token as the `RELEASE_PLEASE_TOKEN` secret; the workflow uses it when present and falls back to `GITHUB_TOKEN`.
+- Store a GitHub App installation token or a personal access token as the `RELEASE_PLEASE_TOKEN` secret. A release PR opened with the default `GITHUB_TOKEN` would not start CI, so it could never pass the required checks on `main`; the workflow therefore fails when the secret is missing instead of falling back.
 - After the first release is published, remove the "not published yet" line from `README.md`.
