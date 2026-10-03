@@ -11,6 +11,7 @@ import { ifOnlyAtStart } from './rules/functions/if-only-at-start.js';
 import { maxFunctionLines } from './rules/functions/max-function-lines.js';
 import { noElse } from './rules/functions/no-else.js';
 import { noSwitch } from './rules/functions/no-switch.js';
+import { noInlineUnion } from './rules/types/no-inline-union.js';
 import {
   buildConfig,
   buildDefaultsConfig,
@@ -30,6 +31,7 @@ export const rules = {
   'no-declarable-private-method': noDeclarablePrivateMethod,
   'no-else': noElse,
   'no-extra-exports': noExtraExports,
+  'no-inline-union': noInlineUnion,
   'no-switch': noSwitch,
   'prefer-inline-template': preferInlineTemplate,
 };

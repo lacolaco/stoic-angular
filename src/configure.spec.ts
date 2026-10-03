@@ -39,6 +39,19 @@ describe('configure', () => {
     });
   });
 
+  it('enables no-inline-union with only the severity', () => {
+    expect(configure({ 'no-inline-union': true }).rules).toEqual({
+      'stoic-angular/no-inline-union': 'error',
+    });
+  });
+
+  it('accepts only true for no-inline-union', () => {
+    // @ts-expect-error no-inline-union has no options
+    configure({ 'no-inline-union': {} });
+    // @ts-expect-error false is not a valid setting
+    configure({ 'no-inline-union': false });
+  });
+
   it('enables no-declarable-accessor with only the severity', () => {
     expect(configure({ 'no-declarable-accessor': true }).rules).toEqual({
       'stoic-angular/no-declarable-accessor': 'error',
@@ -285,6 +298,7 @@ describe('settings derived from rule definitions', () => {
       | 'no-declarable-private-method'
       | 'no-else'
       | 'no-extra-exports'
+      | 'no-inline-union'
       | 'no-switch'
       | 'prefer-inline-template'
       | 'no-nested-ternary'
@@ -297,6 +311,10 @@ describe('settings derived from rule definitions', () => {
 describe('defaults', () => {
   const pluginRuleKeys = Object.keys(rules).map((name) => `stoic-angular/${name}`);
   const allKeys = [...pluginRuleKeys, ...coreRules].sort();
+
+  it('includes no-inline-union', () => {
+    expect(defaults().rules).toHaveProperty(['stoic-angular/no-inline-union'], 'error');
+  });
 
   it('is exposed on the plugin object', () => {
     expect(plugin.defaults).toBe(defaults);

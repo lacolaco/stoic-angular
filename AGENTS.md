@@ -25,7 +25,7 @@ Everything in this repository and everything published from it is written in Eng
 
 ## Layout
 
-- `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/`, `classes/` and `angular/`)
+- `src/rules/<category>/`: one rule per file, with its spec next to it (currently `functions/`, `classes/`, `types/` and `angular/`)
 - `src/support/`: shared helpers; every rule is created through `createRule` in `create-rule.ts`
 - `src/index.ts`: the plugin object (`meta`, `rules` and `configure`)
 - `src/core-rules.ts`: the ESLint core rules that `configure` can enable (`coreRules`)

@@ -107,6 +107,15 @@ describe('oxlint jsPlugins compatibility', () => {
     expect(reports).toHaveLength(2);
   });
 
+  it('reports no-inline-union in a signature and a type argument, but not in a type alias', () => {
+    const reports = diagnostics.filter(
+      (d) =>
+        d.code === 'stoic-angular(no-inline-union)' &&
+        d.filename.startsWith('fixtures/no-inline-union/'),
+    );
+    expect(reports).toHaveLength(2);
+  });
+
   it('reports no-switch', () => {
     const reports = diagnostics.filter(
       (d) => d.code === 'stoic-angular(no-switch)' && d.filename.startsWith('fixtures/no-switch/'),
