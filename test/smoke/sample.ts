@@ -17,3 +17,7 @@ export function short(): number {
 export function nested(a: boolean, b: boolean): number {
   return a ? b ? 1 : 2 : 3;
 }
+
+export function step(i: number): void {
+  i++, i++;
+}

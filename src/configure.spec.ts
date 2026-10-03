@@ -211,6 +211,22 @@ describe('configure settings types', () => {
     configure({ 'no-nested-ternary-x': true });
     // @ts-expect-error a core rule that is not listed in coreRules
     configure({ 'no-new': true });
+    configure({ complexity: true });
+    configure({ complexity: 5 });
+    configure({ complexity: { max: 5 } });
+    // @ts-expect-error complexity takes a number or an object
+    configure({ complexity: 'five' });
+    configure({ 'no-sequences': true });
+    configure({ 'no-sequences': { allowInParentheses: false } });
+    // @ts-expect-error no-sequences has no such option
+    configure({ 'no-sequences': { allowAnywhere: true } });
+  });
+
+  it('enables complexity and no-sequences without a prefix', () => {
+    expect(configure({ complexity: 5, 'no-sequences': true }).rules).toEqual({
+      complexity: ['error', 5],
+      'no-sequences': 'error',
+    });
   });
 
   it('returns a flat config object', () => {
@@ -258,6 +274,8 @@ describe('settings derived from rule definitions', () => {
       | 'no-switch'
       | 'prefer-inline-template'
       | 'no-nested-ternary'
+      | 'complexity'
+      | 'no-sequences'
     >();
   });
 });

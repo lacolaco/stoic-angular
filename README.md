@@ -81,6 +81,8 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 `configure` also enables the following ESLint core rules, which fit the same discipline. Each one is opt-in, like the plugin rules.
 
 - [`no-nested-ternary`](https://eslint.org/docs/latest/rules/no-nested-ternary): Disallows nested ternary expressions.
+- [`complexity`](https://eslint.org/docs/latest/rules/complexity): Limits the cyclomatic complexity of a function. `true` keeps ESLint's default limit of 20; pass a number, for example `complexity: 5`, for a stricter one.
+- [`no-sequences`](https://eslint.org/docs/latest/rules/no-sequences): Disallows the comma operator, so that several expressions cannot be packed into one statement. `true` keeps ESLint's default, which allows a sequence in explicit parentheses; pass `{ allowInParentheses: false }` to forbid those too.
 
 ## License
 
