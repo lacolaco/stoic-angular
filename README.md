@@ -16,7 +16,14 @@ It requires ESLint 10 (`eslint@^10.0.0`).
 
 ### ESLint
 
-The plugin has no preset configs. Pass `configure` the rules you want, so that every constraint in your project is one you chose. Only the rules you list are enabled. This example reads TypeScript with the `typescript-eslint` parser.
+The plugin has no preset config objects (no `configs`). It has two functions that return a flat config, and you pick the one that fits how you adopt the rules:
+
+- `defaults(overrides?)` enables every rule at once, plugin rules and the [core rules](#core-rules) alike, with the default options. Use it to adopt the whole discipline and then change or remove what does not fit.
+- `configure(settings)` enables only the rules you list. Use it to adopt the rules one by one, so that every constraint in your project is one you chose.
+
+Both register the plugin, and the severity is always `error`. A key is a rule name without the `stoic-angular/` prefix, and an unknown name is a type error in a TypeScript config. The examples read TypeScript with the `typescript-eslint` parser.
+
+#### `defaults`
 
 ```js
 // eslint.config.js
@@ -24,6 +31,25 @@ import tsParser from '@typescript-eslint/parser';
 import { defineConfig } from 'eslint/config';
 import stoicAngular from 'eslint-plugin-stoic-angular';
 
+export default defineConfig({
+  files: ['**/*.ts'],
+  languageOptions: { parser: tsParser },
+  extends: [
+    stoicAngular.defaults({
+      'max-function-lines': { maxLines: 8 }, // override the options
+      'no-else': false, // leave the rule out
+    }),
+  ],
+});
+```
+
+- A rule that is not listed stays enabled with its default options. A rule you add to the plugin later is enabled the same way.
+- The value is the first option of the rule (an override), `true` (enabled with the default options, to make it explicit) or `false` (the rule is not enabled).
+- `defaults()` without an argument enables everything.
+
+#### `configure`
+
+```js
 export default defineConfig({
   files: ['**/*.ts'],
   languageOptions: { parser: tsParser },
@@ -36,10 +62,9 @@ export default defineConfig({
 });
 ```
 
-- A key is a rule name without the `stoic-angular/` prefix. An unknown name is a type error in a TypeScript config.
+- Only the rules you list are enabled.
 - `true` enables a rule with its default options. A rule that takes options also accepts them as the value.
 - The same call also enables the ESLint core rules listed under [Core rules](#core-rules). Their keys have no prefix, and they are enabled under their own names (`no-nested-ternary`, not `stoic-angular/no-nested-ternary`).
-- The severity is always `error`.
 
 ### oxlint
 
@@ -78,7 +103,7 @@ See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verif
 
 ## Core rules
 
-`configure` also enables the following ESLint core rules, which fit the same discipline. Each one is opt-in, like the plugin rules.
+`configure` can enable the following ESLint core rules, which fit the same discipline, and `defaults` enables all of them. With `configure`, each one is opt-in, like the plugin rules.
 
 - [`no-nested-ternary`](https://eslint.org/docs/latest/rules/no-nested-ternary): Disallows nested ternary expressions.
 - [`complexity`](https://eslint.org/docs/latest/rules/complexity): Limits the cyclomatic complexity of a function. `true` keeps ESLint's default limit of 20; pass a number, for example `complexity: 5`, for a stricter one.

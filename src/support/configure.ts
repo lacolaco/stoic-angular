@@ -53,3 +53,31 @@ export function buildConfig(
   }
   return { plugins: { [pluginName]: plugin as ESLint.Plugin }, rules };
 }
+
+/**
+ * Keys are the same as in `ConfigureSettings`. A value is `true` (enabled with the default options), the first option of the rule,
+ * or `false`, which leaves the rule out. A rule that is not listed stays enabled with its default options.
+ */
+export type DefaultsOverrides<Rules, CoreName extends keyof ESLintRules = never> = {
+  [Name in keyof ConfigureSettings<Rules, CoreName>]?: ConfigureSettings<Rules, CoreName>[Name] | false;
+};
+
+/**
+ * Builds a flat config object that registers the plugin and enables every rule in `ruleNames` and `coreRuleNames`.
+ * `overrides` replaces the options of a rule, and `false` leaves the rule out of `rules` (no `'off'` entry is written).
+ */
+export function buildDefaultsConfig(
+  pluginName: string,
+  plugin: object,
+  ruleNames: readonly string[],
+  overrides: Readonly<Record<string, unknown>>,
+  coreRuleNames: readonly string[],
+): Linter.Config {
+  const settings: Record<string, unknown> = {};
+  for (const name of [...ruleNames, ...coreRuleNames]) {
+    const override = overrides[name];
+    if (override === false) continue;
+    settings[name] = override === undefined ? true : override;
+  }
+  return buildConfig(pluginName, plugin, settings, coreRuleNames);
+}

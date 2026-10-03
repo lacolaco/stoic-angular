@@ -1,7 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { coreRules, type CoreRuleName } from './core-rules';
-import plugin, { configure, rules } from './index';
-import type { ConfigureSettings, CoreRuleSetting } from './support/configure';
+import plugin, { configure, defaults, rules } from './index';
+import type { ConfigureSettings, CoreRuleSetting, DefaultsOverrides } from './support/configure';
 import type { Linter } from 'eslint';
 
 describe('configure', () => {
@@ -276,6 +276,97 @@ describe('settings derived from rule definitions', () => {
       | 'no-nested-ternary'
       | 'complexity'
       | 'no-sequences'
+    >();
+  });
+});
+
+describe('defaults', () => {
+  const pluginRuleKeys = Object.keys(rules).map((name) => `stoic-angular/${name}`);
+  const allKeys = [...pluginRuleKeys, ...coreRules].sort();
+
+  it('is exposed on the plugin object', () => {
+    expect(plugin.defaults).toBe(defaults);
+  });
+
+  it('registers the plugin and enables every plugin rule and core rule as error', () => {
+    const config = defaults();
+    expect(config.plugins?.['stoic-angular']).toBe(plugin);
+    expect(Object.keys(config.rules ?? {}).sort()).toEqual(allKeys);
+    expect(Object.values(config.rules ?? {}).every((value) => value === 'error')).toBe(true);
+  });
+
+  it('writes core rules without the plugin prefix', () => {
+    for (const name of coreRules) {
+      expect(defaults().rules).toHaveProperty([name], 'error');
+      expect(defaults().rules).not.toHaveProperty([`stoic-angular/${name}`]);
+    }
+  });
+
+  it('treats an empty object and true like no override', () => {
+    expect(defaults({})).toEqual(defaults());
+    expect(defaults({ 'no-else': true, 'no-nested-ternary': true })).toEqual(defaults());
+  });
+
+  it('replaces the options of the rule that is overridden', () => {
+    const config = defaults({ 'max-function-lines': { maxLines: 8 } });
+    expect(config.rules?.['stoic-angular/max-function-lines']).toEqual(['error', { maxLines: 8 }]);
+    expect(config.rules?.['stoic-angular/no-else']).toBe('error');
+    expect(Object.keys(config.rules ?? {}).sort()).toEqual(allKeys);
+  });
+
+  it('leaves a rule out of rules for false, without writing off', () => {
+    const config = defaults({ 'no-else': false, 'no-nested-ternary': false });
+    expect(config.rules).not.toHaveProperty(['stoic-angular/no-else']);
+    expect(config.rules).not.toHaveProperty(['no-nested-ternary']);
+    expect(Object.values(config.rules ?? {})).not.toContain('off');
+    expect(Object.keys(config.rules ?? {}).sort()).toEqual(
+      allKeys.filter((key) => key !== 'stoic-angular/no-else' && key !== 'no-nested-ternary'),
+    );
+  });
+
+  it('does not change configure', () => {
+    expect(() => configure({})).not.toThrow();
+    expect(configure({}).rules).toEqual({});
+  });
+});
+
+describe('defaults overrides types', () => {
+  it('accepts true, the first option and false', () => {
+    defaults();
+    defaults({});
+    defaults({ 'no-else': false });
+    defaults({ 'no-else': true });
+    defaults({ 'max-function-lines': { maxLines: 8 }, 'no-nested-ternary': false });
+    defaults({ 'no-else': false, 'max-function-lines': { maxLines: 8 } });
+  });
+
+  it('rejects unknown names and invalid options', () => {
+    // @ts-expect-error unknown rule name
+    defaults({ 'no-such-rule': false });
+    // @ts-expect-error a core rule that is not listed in coreRules
+    defaults({ 'no-new': false });
+    // @ts-expect-error maxLines must be a number
+    defaults({ 'max-function-lines': { maxLines: 'eight' } });
+    // @ts-expect-error no-else has no options
+    defaults({ 'no-else': {} });
+  });
+
+  it('returns a flat config object', () => {
+    expectTypeOf(defaults()).toEqualTypeOf<Linter.Config>();
+  });
+
+  it('adds false to the settings of configure', () => {
+    type Overrides = DefaultsOverrides<typeof rules, CoreRuleName>;
+    expectTypeOf<Overrides['no-else']>().toEqualTypeOf<boolean | undefined>();
+    expectTypeOf<Overrides['max-function-lines']>().toEqualTypeOf<
+      boolean | { maxLines?: number } | undefined
+    >();
+    expectTypeOf<Overrides['no-nested-ternary']>().toEqualTypeOf<boolean | undefined>();
+  });
+
+  it('only accepts the same rule names as configure', () => {
+    expectTypeOf<keyof DefaultsOverrides<typeof rules, CoreRuleName>>().toEqualTypeOf<
+      keyof ConfigureSettings<typeof rules, CoreRuleName>
     >();
   });
 });
