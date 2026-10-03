@@ -53,4 +53,19 @@ describe('smoke test: enabling a rule through configure in defineConfig extends'
     const none = await lintSample({});
     expect(none.filter((m) => m.ruleId === 'no-nested-ternary')).toHaveLength(0);
   });
+
+  it('applies the complexity limit when complexity is enabled', async () => {
+    const messages = await lintSample({ complexity: 2 });
+    const reports = messages.filter((m) => m.ruleId === 'complexity');
+    expect(reports.map((m) => m.line)).toEqual([17]);
+    expect(reports[0]?.severity).toBe(2);
+  });
+
+  it('reports the comma operator only when no-sequences is enabled', async () => {
+    const messages = await lintSample({ 'no-sequences': true });
+    const reports = messages.filter((m) => m.ruleId === 'no-sequences');
+    expect(reports.map((m) => m.line)).toEqual([22]);
+    const none = await lintSample({});
+    expect(none.filter((m) => m.ruleId === 'no-sequences')).toHaveLength(0);
+  });
 });
