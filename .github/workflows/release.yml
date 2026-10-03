@@ -21,8 +21,6 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      # The release PR must start CI to pass the required checks on main, and a
-      # PR opened with the default GITHUB_TOKEN does not trigger workflows.
       - name: Require RELEASE_PLEASE_TOKEN
         env:
           TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
@@ -46,7 +44,6 @@ jobs:
         with:
           ref: ${{ needs.release-please.outputs.tag_name }}
       - uses: pnpm/action-setup@v6
-      # Trusted publishing needs npm 11.5.1 or later and Node 22.14 or later.
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -55,7 +52,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-      # Publishes with trusted publishing (OIDC) only; no npm token is used.
-      # pnpm 10 delegates to the npm CLI installed above. The checkout is a
-      # detached tag, so pnpm's branch check is turned off.
       - run: pnpm publish --provenance --no-git-checks
