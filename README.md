@@ -8,8 +8,6 @@ An ESLint plugin that imposes strict design constraints on Angular projects thro
 pnpm add -D eslint-plugin-stoic-angular
 ```
 
-The package has not been published to npm yet.
-
 It requires ESLint 10 (`eslint@^10.0.0`).
 
 ## Usage
