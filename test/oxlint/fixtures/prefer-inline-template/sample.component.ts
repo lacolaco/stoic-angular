@@ -1,5 +1,5 @@
-// A stand-in for the Angular decorator: the rule matches the name `Component` only
-const Component = (_options: object) => (_target: unknown) => {};
+// @ts-nocheck -- @angular/core is not installed in this repository
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sample',
