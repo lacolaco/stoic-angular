@@ -27,7 +27,7 @@ This is the opposite check from `@angular-eslint/component-max-inline-declaratio
 
 `--fix` replaces the whole `templateUrl: '...'` property with `template: \`...\``, with these details:
 
-- The HTML is re-indented one level deeper than the property.
+- The HTML is re-indented one level (two spaces) deeper than the line that holds `templateUrl`.
 - `\`, `` ` `` and `${` in the HTML are escaped.
 - A file that contains only whitespace becomes an empty template literal.
 - The HTML file is not deleted. Delete it yourself once nothing refers to it.
