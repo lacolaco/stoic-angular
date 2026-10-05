@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import { ESLintUtils, type TSESLint, type TSESTree } from '@typescript-eslint/utils';
 import { maxLinesOption } from '../../support/options.js';
 import { createRule } from '../../support/create-rule.js';
+import { isAngularCoreDecorator } from '../../support/angular-imports.js';
 
 type MessageIds = 'inline';
 type Options = [{ maxLines?: number }?];
@@ -10,9 +11,9 @@ type Context = TSESLint.RuleContext<MessageIds, Options>;
 
 const DEFAULT_MAX_LINES = 10;
 
-/** Selector that targets only templateUrl directly under the @Component decorator's argument object */
+/** Selector that targets templateUrl directly under a decorator call's argument object; the handler checks that the decorator is Component from @angular/core */
 const TEMPLATE_PROPERTY_SELECTOR =
-  'Decorator > CallExpression[callee.name="Component"] > ObjectExpression > Property[key.name="templateUrl"]';
+  'Decorator > CallExpression > ObjectExpression > Property[key.name="templateUrl"]';
 
 function safeRead(file: string): string | null {
   try {
@@ -91,11 +92,22 @@ function resolveContent(context: Context, node: TSESTree.Node): string | null {
   return templateUrl === null ? null : loadReferenced(context, templateUrl);
 }
 
+function isComponentDecorated(context: Context, node: TSESTree.Node): boolean {
+  const decorator = node.parent?.parent?.parent;
+  return (
+    decorator?.type === 'Decorator' &&
+    isAngularCoreDecorator(context.sourceCode.ast, decorator, 'Component')
+  );
+}
+
 function checkNode(context: Context, maxLines: number, node: TSESTree.Node): void {
-  flagCandidate(context, maxLines, node, resolveContent(context, node));
+  if (isComponentDecorated(context, node)) {
+    flagCandidate(context, maxLines, node, resolveContent(context, node));
+  }
 }
 
 /**
+ * Identifies the decorator through the @angular/core import (named, aliased and namespace imports).
  * Measures the line count of the file referenced by templateUrl and requires an inline template
  * when it is at or below the threshold. The threshold can be changed with the { maxLines } option (default 10)
  */

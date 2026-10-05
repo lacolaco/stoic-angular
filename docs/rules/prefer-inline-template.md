@@ -33,9 +33,17 @@ This is the opposite check from `@angular-eslint/component-max-inline-declaratio
 - The HTML file is not deleted. Delete it yourself once nothing refers to it.
 - `styleUrl` and `styleUrls` are not touched.
 
-### Limitation
+### How the decorator is recognized
 
-The rule recognizes the decorator by the identifier name `Component` only. It does not check that the name comes from `@angular/core`, so a different function with the same name is treated the same way.
+The rule does not use type information. It reads the `import` declarations of the file and follows the same forms as [`no-declarable-private-method`](no-declarable-private-method.md#how-the-decorators-are-recognized):
+
+- `import { Component } from '@angular/core'` with `@Component({...})`
+- `import { Component as Alias } from '@angular/core'` with `@Alias({...})`
+- `import * as ng from '@angular/core'` with `@ng.Component({...})`
+
+A decorator imported from another module, a locally defined decorator with the same name, and a file that does not import from `@angular/core` are not checked.
+
+Limitations: a decorator that is re-exported through another module is missed, because the rule does not follow imports across files. A local variable that shadows the imported name is not detected.
 
 ### Examples
 

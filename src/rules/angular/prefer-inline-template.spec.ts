@@ -15,7 +15,7 @@ const longBody = Array.from({ length: 21 }, (_, i) => `    <p>Line ${i + 1}</p>`
 const tester = new RuleTester();
 
 const component = (props: string) => `
-const Component = (o) => (c) => c;
+import { Component } from '@angular/core';
 @Component({
   ${props}
 })
@@ -51,6 +51,28 @@ tester.run('prefer-inline-template', preferInlineTemplate, {
       code: component(`templateUrl: './medium.html'`),
       options: [{ maxLines: 2 }],
     },
+    {
+      name: 'A locally defined Component function is not the Angular decorator',
+      filename: inFixtures('probe.ts'),
+      code: `
+const Component = (o) => (c) => c;
+@Component({
+  templateUrl: './short.html'
+})
+export class Probe {}
+`,
+    },
+    {
+      name: 'A Component decorator imported from another module is ignored',
+      filename: inFixtures('probe.ts'),
+      code: `
+import { Component } from './my-decorators';
+@Component({
+  templateUrl: './short.html'
+})
+export class Probe {}
+`,
+    },
   ],
   invalid: [
     {
@@ -67,6 +89,48 @@ tester.run('prefer-inline-template', preferInlineTemplate, {
       options: [{ maxLines: 25 }],
       errors: [{ messageId: 'inline', data: { lines: '21', max: '25' } }],
       output: component(`template: \`\n${longBody}\n  \``),
+    },
+    {
+      name: 'Detects an aliased import of Component from @angular/core',
+      filename: inFixtures('probe.ts'),
+      code: `
+import { Component as Cmp } from '@angular/core';
+@Cmp({
+  templateUrl: './short.html'
+})
+export class Probe {}
+`,
+      errors: [{ messageId: 'inline' }],
+      output: `
+import { Component as Cmp } from '@angular/core';
+@Cmp({
+  template: \`
+    <p>Short {{ value }}</p>
+  \`
+})
+export class Probe {}
+`,
+    },
+    {
+      name: 'Detects a namespace import of @angular/core',
+      filename: inFixtures('probe.ts'),
+      code: `
+import * as ng from '@angular/core';
+@ng.Component({
+  templateUrl: './short.html'
+})
+export class Probe {}
+`,
+      errors: [{ messageId: 'inline' }],
+      output: `
+import * as ng from '@angular/core';
+@ng.Component({
+  template: \`
+    <p>Short {{ value }}</p>
+  \`
+})
+export class Probe {}
+`,
     },
   ],
 });
