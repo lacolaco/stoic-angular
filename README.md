@@ -64,6 +64,32 @@ export default defineConfig({
 - `true` enables a rule with its default options. A rule that takes options also accepts them as the value.
 - The same call also enables the ESLint core rules listed under [Core rules](#core-rules). Their keys have no prefix, and they are enabled under their own names (`no-nested-ternary`, not `stoic-angular/no-nested-ternary`).
 
+#### Limit the files
+
+`defaults()` and `configure()` return `{ plugins, rules }` without `files`, so on their own they apply to every file that ESLint lints. Narrow them with `files` and `ignores` on the `defineConfig` entry, for example to lint only `src/` and skip the specs:
+
+```js
+export default defineConfig({
+  files: ['src/**/*.ts'],
+  ignores: ['**/*.spec.ts'],
+  languageOptions: { parser: tsParser },
+  extends: [stoicAngular.defaults()],
+});
+```
+
+Without `defineConfig`, add the keys to the returned object:
+
+```js
+export default [
+  {
+    ...stoicAngular.configure({ 'no-else': true }),
+    files: ['src/**/*.ts'],
+    ignores: ['**/*.spec.ts'],
+    languageOptions: { parser: tsParser },
+  },
+];
+```
+
 ### oxlint
 
 The plugin runs as an oxlint JS plugin (alpha). Load the built entry point (`dist/index.js`) with an alias in `.oxlintrc.json` and enable the rules by their prefixed names:
@@ -74,6 +100,23 @@ The plugin runs as an oxlint JS plugin (alpha). Load the built entry point (`dis
   "rules": {
     "stoic-angular/max-function-lines": "error"
   }
+}
+```
+
+To limit the files, enable the rules in `overrides` with `files`. `ignorePatterns` skips files for the whole oxlint run, not only for this plugin:
+
+```json
+{
+  "jsPlugins": [{ "name": "stoic-angular", "specifier": "./node_modules/eslint-plugin-stoic-angular/dist/index.js" }],
+  "ignorePatterns": ["**/*.spec.ts"],
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "rules": {
+        "stoic-angular/max-function-lines": "error"
+      }
+    }
+  ]
 }
 ```
 
