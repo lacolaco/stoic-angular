@@ -16,7 +16,7 @@ Verified with oxlint 1.86.0 (JS plugins, alpha) on Node.js 22. The built plugin 
 | `no-extra-exports` | yes | `Program:exit`, export declarations and specifiers, `sourceCode.ast` import declarations |
 | `no-inline-union` | yes | `TSUnionType` visitor, parent chain walk |
 | `no-switch` | yes | `SwitchStatement` and `SwitchCase` nodes |
-| `prefer-inline-template` | yes | `context.filename`, `context.sourceCode.ast` import declarations, `node:fs`, `--fix` |
+| `prefer-inline-template` | yes | `context.filename`, `context.sourceCode.ast` import declarations, `context.sourceCode.lines`, `node:fs`, `--fix` |
 
 Other findings:
 
