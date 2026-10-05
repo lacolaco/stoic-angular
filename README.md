@@ -103,6 +103,23 @@ The plugin runs as an oxlint JS plugin (alpha). Load the built entry point (`dis
 }
 ```
 
+To limit the files, enable the rules in `overrides` with `files`. `ignorePatterns` skips files for the whole oxlint run, not only for this plugin:
+
+```json
+{
+  "jsPlugins": [{ "name": "stoic-angular", "specifier": "./node_modules/eslint-plugin-stoic-angular/dist/index.js" }],
+  "ignorePatterns": ["**/*.spec.ts"],
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "rules": {
+        "stoic-angular/max-function-lines": "error"
+      }
+    }
+  ]
+}
+```
+
 See [oxlint compatibility](docs/oxlint-compatibility.md) for what has been verified.
 
 ## Rules
