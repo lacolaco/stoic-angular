@@ -83,6 +83,48 @@ export class Probe {}
       output: component('template: `\n    <p>Short {{ value }}</p>\n  `'),
     },
     {
+      name: 'Indents a single-line decorator by the line indent, not the property column',
+      filename: inFixtures('probe.ts'),
+      code: `
+import { Component } from '@angular/core';
+@Component({ selector: 'b', templateUrl: './short.html' }) export class B {}
+`,
+      errors: [{ messageId: 'inline' }],
+      output: `
+import { Component } from '@angular/core';
+@Component({ selector: 'b', template: \`
+  <p>Short {{ value }}</p>
+\` }) export class B {}
+`,
+    },
+    {
+      name: 'Uses the leading spaces of the line for a single-line decorator in an indented context',
+      filename: inFixtures('probe.ts'),
+      code: `
+import { Component } from '@angular/core';
+namespace N {
+    @Component({ selector: 'b', templateUrl: './short.html' }) export class B {}
+}
+`,
+      errors: [{ messageId: 'inline' }],
+      output: `
+import { Component } from '@angular/core';
+namespace N {
+    @Component({ selector: 'b', template: \`
+      <p>Short {{ value }}</p>
+    \` }) export class B {}
+}
+`,
+    },
+    {
+      name: 'Preserves tabs in the leading whitespace of the line',
+      filename: inFixtures('probe.ts'),
+      code: "import { Component } from '@angular/core';\nnamespace N {\n\t@Component({ selector: 'b', templateUrl: './short.html' }) export class B {}\n}\n",
+      errors: [{ messageId: 'inline' }],
+      output:
+        "import { Component } from '@angular/core';\nnamespace N {\n\t@Component({ selector: 'b', template: `\n\t  <p>Short {{ value }}</p>\n\t` }) export class B {}\n}\n",
+    },
+    {
       name: 'Raising the threshold with the maxLines option also detects templates that exceeded it',
       filename: inFixtures('probe.ts'),
       code: component(`templateUrl: './long.html'`),

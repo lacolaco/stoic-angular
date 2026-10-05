@@ -32,25 +32,28 @@ function escapeForBacktick(content: string): string {
   return content.replaceAll('\\', '\\\\').replaceAll('`', '\\`').replaceAll('${', '\\${');
 }
 
-/** Re-lays the body one level deeper to match the property indent (default 2) */
-function buildBody(content: string, escaped: string, column: number): string {
-  const indent = ' '.repeat(column + 2);
-  const body = `\n${indent}${escaped.split('\n').join(`\n${indent}`)}\n${' '.repeat(column)}`;
+/** Re-lays the body one level deeper (2 spaces) than the indent of the line holding templateUrl */
+function buildBody(content: string, escaped: string, indent: string): string {
+  const inner = `${indent}  `;
+  const body = `\n${inner}${escaped.split('\n').join(`\n${inner}`)}\n${indent}`;
   return content.trim() === '' ? '' : body;
 }
 
-function indentColumn(node: TSESTree.Node): number {
-  return node.loc.start.column;
+/** The leading whitespace of the line, as written (spaces or tabs), not the column of the property */
+function lineIndent(context: Context, node: TSESTree.Node): string {
+  const line = context.sourceCode.lines[node.loc.start.line - 1] ?? '';
+  return /^[ \t]*/.exec(line)?.[0] ?? '';
 }
 
 function toReplacement(
+  context: Context,
   fixer: TSESLint.RuleFixer,
   node: TSESTree.Node,
   content: string,
 ): TSESLint.RuleFix {
-  const column = indentColumn(node);
+  const indent = lineIndent(context, node);
   const escaped = escapeForBacktick(content);
-  const body = buildBody(content, escaped, column);
+  const body = buildBody(content, escaped, indent);
   return fixer.replaceText(node, `template: \`${body}\``);
 }
 
@@ -66,7 +69,7 @@ function reportViolation(
 ): void {
   const lines = lineTotal(content);
   const data = { lines: String(lines), max: String(maxLines) };
-  const fix: TSESLint.ReportFixFunction = (fixer) => toReplacement(fixer, node, content);
+  const fix: TSESLint.ReportFixFunction = (fixer) => toReplacement(context, fixer, node, content);
   context.report({ node, messageId: 'inline', data, fix });
 }
 
