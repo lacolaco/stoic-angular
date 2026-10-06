@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/lacolaco/stoic-angular/compare/v1.0.0...v1.0.1) (2026-10-06)
+
+
+### Bug Fixes
+
+* **prefer-inline-template:** identify @Component through the @angular/core import ([#31](https://github.com/lacolaco/stoic-angular/issues/31)) ([39302f9](https://github.com/lacolaco/stoic-angular/commit/39302f99eb17a483946e3c4782d271f77f541969))
+* **prefer-inline-template:** indent the inlined template by the line indent, not the property column ([#33](https://github.com/lacolaco/stoic-angular/issues/33)) ([a6182a4](https://github.com/lacolaco/stoic-angular/commit/a6182a4e2e90f180a2c86549974d7f93b0034c45))
+
 ## 1.0.0 (2026-10-04)
 
 
