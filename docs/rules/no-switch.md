@@ -176,7 +176,7 @@ The default options of `switch-exhaustiveness-check` work with this rule. `allow
 `requireDefaultForNonUnion` decides whether a `switch` over a non-union type such as `number` or `string` can be written at all:
 
 - Leave it off (the default) to keep such a `switch` available. Its exhaustiveness is not checked; a value that no `case` matches skips the `switch` and execution continues after it.
-- Set it to `true` to forbid such a `switch`. The option demands a `default`, which this rule reports, so neither form passes and a `switch` is limited to the types whose exhaustiveness the type checker can verify. This option alone does not forbid it: a `switch` over `number` with a `default` passes `switch-exhaustiveness-check`, and only this rule reports the `default`.
+- Set it to `true` to forbid such a `switch` in combination with this rule. The option demands a `default` and this rule reports it, so neither form passes and a `switch` is limited to the types whose exhaustiveness the type checker can verify. The option does not do this on its own: a `switch` over `number` with a `default` passes `switch-exhaustiveness-check`.
 
 ```js
 '@typescript-eslint/switch-exhaustiveness-check': [
