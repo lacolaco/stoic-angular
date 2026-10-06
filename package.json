@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-stoic-angular",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ESLint plugin that imposes strict design constraints on Angular code, with rules drawn from Five Lines of Code",
   "license": "MIT",
   "author": "Suguru Inatomi",
