@@ -171,4 +171,16 @@ function area(shape: Shape): number {
 // TS2366: Function lacks ending return statement and return type does not include 'undefined'.
 ```
 
-The default options of `switch-exhaustiveness-check` work with this rule. `allowDefaultCaseForExhaustiveSwitch: false` also works: it reports a redundant `default`, which this rule reports too. Do not set `requireDefaultForNonUnion: true`: it demands a `default` on a `switch` over a non-union type such as `number` or `string`, which this rule forbids, so such a `switch` could no longer be written at all.
+The default options of `switch-exhaustiveness-check` work with this rule. `allowDefaultCaseForExhaustiveSwitch: false` also works: it reports a redundant `default`, which this rule reports too.
+
+`requireDefaultForNonUnion` decides whether a `switch` over a non-union type such as `number` or `string` can be written at all:
+
+- Leave it off (the default) to keep such a `switch` available. Its exhaustiveness is not checked; a value that no `case` matches skips the `switch` and execution continues after it.
+- Set it to `true` to forbid such a `switch` in combination with this rule. The option demands a `default` and this rule reports it, so neither form passes and a `switch` is limited to the types whose exhaustiveness the type checker can verify. The option does not do this on its own: a `switch` over `number` with a `default` passes `switch-exhaustiveness-check`.
+
+```js
+'@typescript-eslint/switch-exhaustiveness-check': [
+  'error',
+  { allowDefaultCaseForExhaustiveSwitch: false, requireDefaultForNonUnion: true },
+],
+```
